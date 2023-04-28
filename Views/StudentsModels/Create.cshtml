@@ -56,7 +56,16 @@
                 <input asp-for="YearOfStudy" class="form-control" />
                 <span asp-validation-for="YearOfStudy" class="text-danger"></span>
             </div>
-         
+            <div class="form-group">
+                <label asp-for="department_id" class="control-label">Department</label>
+                <select asp-for="department_id" name="department">
+                @foreach (var departmentName in ViewBag.DepartmentNames)
+                {
+                    <option value="@departmentName.DeptId">@departmentName.DeptName</option>
+                        <p>@departmentName.DeptId</p>
+                }
+                </select>
+            </div>
             <div class="form-group">
                 <label asp-for="Email" class="control-label"></label>
                 <input asp-for="Email" class="form-control" />

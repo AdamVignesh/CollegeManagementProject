@@ -32,6 +32,7 @@ namespace College.Controllers
             return _context.students != null ? 
                           View(await _context.students.ToListAsync()) :
                           Problem("Entity set 'CollegeContext.students'  is null.");
+
         }
 
         // GET: StudentsModels/Details/5
@@ -59,9 +60,19 @@ namespace College.Controllers
             List<StudentsModel> s = _context.students.Where(s=>s.user_id.Id == userId).ToList();
             if(s.Count==0)
             {
+                var departments = _context.departments.Select(t => new DepartmentsModel
+                {
+                    DeptId = t.DeptId,
+                    DeptName = t.DeptName,
+                }).ToList();
+                ViewBag.DepartmentNames = departments;
                 return View();
             }
-            return View(Index);
+            else
+            {
+                return View("Index");
+            }
+            return View();
         }
 
         // POST: StudentsModels/Create
@@ -69,7 +80,7 @@ namespace College.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(IFormFile file,[Bind("RegNo,Name,SchoolName,Percentage12th,Percentage10th,City,isFeePaid,YearOfStudy,Attendance,CGPA,Email,ImageURL")] StudentsModel studentsModel)
+        public async Task<IActionResult> Create(IFormFile file,[Bind("RegNo,Name,SchoolName,Percentage12th,Percentage10th,City,isFeePaid,YearOfStudy,DeptId,Attendance,CGPA,Email,ImageURL")] StudentsModel studentsModel)
         {
             string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
