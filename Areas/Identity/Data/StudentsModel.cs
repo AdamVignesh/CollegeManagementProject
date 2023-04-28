@@ -26,12 +26,11 @@ namespace College.Areas.Identity.Data
 
         public int? CGPA { get; set; }
         [Required]
-        public int Email { get; set; }
+        public string Email { get; set; }
         [Required]
         public string ImageURL { get; set; }
 
-        [Required]
-        public DepartmentsModel department_id { get; set; }
+        public DepartmentsModel? department_id { get; set; }
 
         [Required]
         public AspNetUsers user_id { get; set; }

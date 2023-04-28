@@ -7,22 +7,29 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using College.Areas.Identity.Data;
 using College.Data;
+using System.Security.Claims;
+using System.Diagnostics;
+using Amazon;
+using Amazon.S3;
+using Amazon.S3.Transfer;
+using Microsoft.AspNetCore.Identity;
 
 namespace College.Controllers
 {
     public class StudentsModelsController : Controller
     {
         private readonly CollegeContext _context;
-
-        public StudentsModelsController(CollegeContext context)
+        private readonly UserManager<AspNetUsers> _userManager;
+        public StudentsModelsController(CollegeContext context, UserManager<AspNetUsers> user)
         {
             _context = context;
+            _userManager = user;
         }
 
         // GET: StudentsModels
         public async Task<IActionResult> Index()
         {
-              return _context.students != null ? 
+            return _context.students != null ? 
                           View(await _context.students.ToListAsync()) :
                           Problem("Entity set 'CollegeContext.students'  is null.");
         }
@@ -48,7 +55,13 @@ namespace College.Controllers
         // GET: StudentsModels/Create
         public IActionResult Create()
         {
-            return View();
+            string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            List<StudentsModel> s = _context.students.Where(s=>s.user_id.Id == userId).ToList();
+            if(s.Count==0)
+            {
+                return View();
+            }
+            return View(Index);
         }
 
         // POST: StudentsModels/Create
@@ -56,15 +69,67 @@ namespace College.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("RegNo,Name,SchoolName,Percentage12th,Percentage10th,City,isFeePaid,YearOfStudy,Attendance,CGPA,Email,ImageURL")] StudentsModel studentsModel)
+        public async Task<IActionResult> Create(IFormFile file,[Bind("RegNo,Name,SchoolName,Percentage12th,Percentage10th,City,isFeePaid,YearOfStudy,Attendance,CGPA,Email,ImageURL")] StudentsModel studentsModel)
         {
-            if (ModelState.IsValid)
+            string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            var user = _userManager.GetUserId(this.User);
+            Console.WriteLine("userid: " + userId);
+            var CurrUser = await _userManager.FindByIdAsync(userId);
+          
+
+            //AWS configs
+
+            IConfiguration config = new ConfigurationBuilder()
+        .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+        .Build();
+
+            string accessKey = config["AccessKey"];
+            string secretKey = config["SecretKey"];
+            string bucketName = config["BucketName"];
+
+            /*string filePath = Path.GetFullPath(file.FileName);
+            Console.WriteLine("path "+filePath);*/
+            Console.WriteLine("nweAcc " + accessKey);
+            string filePath = $"C:\\Users\\HP\\source\\College\\College\\images\\{file.FileName}";
+
+            using (var client = new AmazonS3Client(accessKey, secretKey, RegionEndpoint.EUNorth1))
             {
-                _context.Add(studentsModel);
+                using (var transferUtility = new TransferUtility(client))
+                {
+                    var fileTransferUtilityRequest = new TransferUtilityUploadRequest
+                    {
+                        BucketName = bucketName,
+                        FilePath = filePath,
+                        Key = $"images/{file.FileName}",
+                        CannedACL = S3CannedACL.PublicRead
+                    };
+
+                    transferUtility.Upload(fileTransferUtilityRequest);
+                }
+                var url = client.GetPreSignedURL(new Amazon.S3.Model.GetPreSignedUrlRequest
+                {
+                    BucketName = bucketName,
+                    Key = $"images/{file.FileName}",
+                    Expires = DateTime.Now.AddDays(5) // Set the expiration date of the URL
+                });
+
+                // Print out the URL of the uploaded file
+                url = url.Substring(0, url.IndexOf("?"));
+               // Console.WriteLine("Uploaded file URL: " + url);
+                ViewData["imgsrc"] = url;
+                studentsModel.ImageURL = url;
+                studentsModel.user_id = CurrUser;
+
+
+            }
+            Console.WriteLine("Image uploaded successfully!");
+
+            _context.Add(studentsModel);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
-            }
-            return View(studentsModel);
+            
+          //  return View(studentsModel);
         }
 
         // GET: StudentsModels/Edit/5

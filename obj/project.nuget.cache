@@ -1,9 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "y+fdscoG7LG9X1bkozLklUjPlD88H1+of+rbZu5mxdT3MNwMHKtw3RIQkVS2DdwZftA6z3zSnFzwy1aGYRZ3Ow==",
+  "dgSpecHash": "Gwz3wSuHeWr05JVbx2O85p9389MpcebXtVqtHoH4p9UXz+/wZUVVoRTG68HJ9oqJ8ypv9RDQ64lrFrNnYh/+UA==",
   "success": true,
   "projectFilePath": "C:\\Users\\HP\\source\\College\\College\\College.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\HP\\.nuget\\packages\\awssdk.core\\3.7.106.28\\awssdk.core.3.7.106.28.nupkg.sha512",
+    "C:\\Users\\HP\\.nuget\\packages\\awssdk.s3\\3.7.104.6\\awssdk.s3.3.7.104.6.nupkg.sha512",
     "C:\\Users\\HP\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",
     "C:\\Users\\HP\\.nuget\\packages\\messagepack\\2.1.152\\messagepack.2.1.152.nupkg.sha512",
     "C:\\Users\\HP\\.nuget\\packages\\messagepack.annotations\\2.1.152\\messagepack.annotations.2.1.152.nupkg.sha512",

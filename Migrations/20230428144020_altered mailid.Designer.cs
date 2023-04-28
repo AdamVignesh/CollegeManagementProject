@@ -4,6 +4,7 @@ using College.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace College.Migrations
 {
     [DbContext(typeof(CollegeContext))]
-    partial class CollegeContextModelSnapshot : ModelSnapshot
+    [Migration("20230428144020_altered mailid")]
+    partial class alteredmailid
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -250,7 +252,7 @@ namespace College.Migrations
                     b.Property<int>("YearOfStudy")
                         .HasColumnType("int");
 
-                    b.Property<int?>("department_idDeptId")
+                    b.Property<int>("department_idDeptId")
                         .HasColumnType("int");
 
                     b.Property<bool>("isFeePaid")
@@ -462,7 +464,9 @@ namespace College.Migrations
                 {
                     b.HasOne("College.Areas.Identity.Data.DepartmentsModel", "department_id")
                         .WithMany()
-                        .HasForeignKey("department_idDeptId");
+                        .HasForeignKey("department_idDeptId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("College.Areas.Identity.Data.AspNetUsers", "user_id")
                         .WithMany()
