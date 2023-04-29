@@ -17,8 +17,7 @@ namespace College.Areas.Identity.Data
         public string Percentage10th { get; set; }
         [Required]
         public string City { get; set; }
-        [Required]
-        public bool isFeePaid { get; set; }
+        public bool? isFeePaid { get; set; }
         [Required]
         public int YearOfStudy { get; set; }
 

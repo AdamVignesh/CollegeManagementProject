@@ -4,103 +4,122 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1>My Card</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-
-@if (Model==null)
-{
-<p>Adam check</p>
-}
-    <table class="table">
-        <thead>
-            <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.Name)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.SchoolName)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Percentage12th)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Percentage10th)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.City)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.isFeePaid)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.YearOfStudy)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.department_id)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Attendance)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.CGPA)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Email)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.ImageURL)
-                </th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
     @foreach (var item in Model) {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.SchoolName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Percentage12th)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Percentage10th)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.City)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.isFeePaid)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.YearOfStudy)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.department_id)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Attendance)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.CGPA)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Email)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ImageURL)
-                </td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.RegNo">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.RegNo">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.RegNo">Delete</a>
-                </td>
-            </tr>
+         <div class="card text-center" style="width: 700px;">
+          <img class="card-img-top mx-auto" src="@item.ImageURL" alt="Your profile pic" style="width: 240px;">
+          <div class="card-body">
+
+              <table>
+                  <tr>
+                      <td>
+                          <h5 class="card-title">Name</h5>
+                      </td>
+                      <td>
+                          <h5 class="card-text">@item.Name</h5>
+                      </td>
+                  </tr>
+
+                  <tr>
+                      <td>
+                          <h5 class="card-title">School Name</h5>
+                      </td>
+                      <td>
+                          <h5 class="card-text">@item.SchoolName</h5>
+                      </td>
+                  </tr>
+
+                  <tr>
+                      <td>
+                          <h5 class="card-title">12th %</h5>
+                      </td>
+                      <td>
+                          <h5 class="card-text">@item.Percentage12th</h5>
+                      </td>
+                  </tr>
+
+                  <tr>
+                      <td>
+                          <h5 class="card-title">10th %</h5>
+                      </td>
+                      <td>
+                          <h5 class="card-text">@item.Percentage10th</h5>
+                      </td>
+                  </tr>
+
+                  <tr>
+                      <td>
+                          <h5 class="card-title">City</h5>
+                      </td>
+                      <td>
+                          <h5 class="card-text">@item.City</h5>
+                      </td>
+                  </tr>
+                  <tr>
+                      <td>
+                          <h5 class="card-title">Fee status</h5>
+                      </td>
+                      <td>
+                          <h5 class="card-text">@item.isFeePaid</h5>
+                      </td>
+                  </tr>
+                  <tr>
+                      <td>
+                          <h5 class="card-title">Year of Study</h5>
+                      </td>
+                      <td>
+                          <h5 class="card-text">@item.YearOfStudy</h5>
+                      </td>
+                  </tr>
+                      <tr>
+                      <td>
+                          <h5 class="card-title">Department</h5>
+                      </td>
+                      <td>
+@*                          <h5> @Html.DisplayFor(modelItem => item.department_id.DeptName)</h5>
+*@                          <h5 class="card-text">@item.department_id.DeptName</h5>
+                      </td>
+                  </tr>
+                  <tr>
+                      <td>
+                          <h5 class="card-title">Attendance</h5>
+                      </td>
+                      <td>
+                          <h5 class="card-text">@item.Attendance Days of 73</h5>
+                      </td>
+                  </tr>
+                  <tr>
+                      <td>
+                          <h5 class="card-title">CGPA</h5>
+                      </td>
+                      <td>
+                          <h5 class="card-text">@item.CGPA CGPA</h5>
+                      </td>
+                  </tr>
+                  <tr>
+                      <td>
+                          <h5 class="card-title">Attendance</h5>
+                      </td>
+                      <td>
+                          <h5 class="card-text">@item.Attendance Days of 73</h5>
+                      </td>
+                  </tr>
+                  <tr>
+                      <td>
+                              <h5 class="card-title">Email</h5>
+                      </td>
+                      <td>
+                          <h5 class="card-text">@item.Email</h5>
+                      </td>
+                  </tr>
+              </table>
+          </div>
+        </div>
     }
-        </tbody>
-    </table>
+
+<style>
+  td{
+    padding: 10px 90px;
+  }
+</style>

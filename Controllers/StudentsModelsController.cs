@@ -29,6 +29,7 @@ namespace College.Controllers
         // GET: StudentsModels
         public async Task<IActionResult> Index()
         {
+
             return _context.students != null ? 
                           View(await _context.students.ToListAsync()) :
                           Problem("Entity set 'CollegeContext.students'  is null.");
@@ -57,7 +58,7 @@ namespace College.Controllers
         public IActionResult Create()
         {
             string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            List<StudentsModel> s = _context.students.Where(s=>s.user_id.Id == userId).ToList();
+            List<StudentsModel> s = _context.students.Include(r=>r.department_id).Where(s=>s.user_id.Id == userId).ToList();
             if(s.Count==0)
             {
                 var departments = _context.departments.Select(t => new DepartmentsModel
@@ -66,11 +67,24 @@ namespace College.Controllers
                     DeptName = t.DeptName,
                 }).ToList();
                 ViewBag.DepartmentNames = departments;
+                foreach(DepartmentsModel d in departments)
+                {
+                    Console.WriteLine("deptId "+d.DeptId);
+                }
                 return View();
             }
             else
             {
-                return View("Index");
+                foreach(var si in s)
+                {
+                    Console.WriteLine("id "+si.department_id.DeptName);
+
+                }
+                //DepartmentsModel departmentValues = _context.departments.Find(s[0].department_id);
+                //DepartmentsModel departmentValues = _context.departments.Find();
+
+                return View("Index", s);
+                
             }
             return View();
         }
@@ -80,15 +94,16 @@ namespace College.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(IFormFile file,[Bind("RegNo,Name,SchoolName,Percentage12th,Percentage10th,City,isFeePaid,YearOfStudy,DeptId,Attendance,CGPA,Email,ImageURL")] StudentsModel studentsModel)
+        public async Task<IActionResult> Create(IFormFile file,int department, [Bind("RegNo,Name,SchoolName,Percentage12th,Percentage10th,City,isFeePaid,YearOfStudy,Attendance,CGPA,Email,ImageURL")] StudentsModel studentsModel)
         {
             string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-
+            DepartmentsModel departmentValues = _context.departments.Find(department);
+            //DepartmentsModel departmentValues = _context.students.Include(s=>s.department_id).Where(id => id.department_id.DeptId == department).FirstOrDefault();
             var user = _userManager.GetUserId(this.User);
             Console.WriteLine("userid: " + userId);
             var CurrUser = await _userManager.FindByIdAsync(userId);
-          
 
+           // Console.WriteLine(department);
             //AWS configs
 
             IConfiguration config = new ConfigurationBuilder()
@@ -131,6 +146,8 @@ namespace College.Controllers
                 ViewData["imgsrc"] = url;
                 studentsModel.ImageURL = url;
                 studentsModel.user_id = CurrUser;
+                studentsModel.department_id= departmentValues;
+                
 
 
             }
@@ -138,8 +155,13 @@ namespace College.Controllers
 
             _context.Add(studentsModel);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            
+            string CurrUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            List<StudentsModel> studentValues = _context.students.Where(s => s.user_id.Id == CurrUserId).ToList();
+            foreach(StudentsModel s in studentValues)
+            {
+                Console.WriteLine(s.Name +" -------------"+s.department_id.DeptName);
+            }
+            return View("Index", studentValues);
           //  return View(studentsModel);
         }
 
