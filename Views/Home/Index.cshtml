@@ -2,7 +2,51 @@
     ViewData["Title"] = "Home Page";
 }
 
+@if(ViewBag.isAttendanceMarked !=null && ViewBag.isAttendanceMarked)
+{
+    <div style="background-color: #FFEEB3;">
+       <p>Confirm Attendance</p>
+           <button> <a asp-action ="AddAttendance">Confirm</a></button>
+           <button> <a asp-action ="Index">Cancel</a></button>
+    </div>
+}
+else if(ViewBag.isAttendanceMarked!= null && ViewBag.isAttendanceAdded)
+{
+    <div style="background-color: #AAC8A7;">
+       <p>Attendance Marked For the day</p>
+           <button> <a asp-action ="">Done</a></button>
+    </div>
+}
+else if(ViewBag.isAttendanceMarked!= null && !ViewBag.isAttendanceAdded)
+{
+    <div style="background-color: red;">
+       <p>Dont cheat broo </p>
+           <button> <a asp-action ="">Done</a></button>
+    </div>
+}
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <h1 class="display-4">Welcome to Our College</h1>
+     <a class="btn btn-warning" asp-action="attendance">MarkAttendance </a> 
+<br /><br />
+    <div class="row">
+  <div class="col-sm-6">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">View My Card</h5>
+        <p class="card-text">Shows all your student details</p>
+        <a asp-controller="StudentsModels" asp-action="Create" class="btn btn-primary">Let's Go</a>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-6">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">View Clubs</h5>
+        <p class="card-text">List of clubs available for you to have a look and join that suits you :-)</p>
+        <a asp-controller="ClubsModels" asp-action="Index" class="btn btn-primary">Let's Go</a>
+      </div>
+    </div>
+  </div>
+</div>
+   
 </div>

@@ -39,9 +39,14 @@
                 <span asp-validation-for="City" class="text-danger"></span>
             </div>
             <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="isFeePaid" /> @Html.DisplayNameFor(model => model.isFeePaid)
-                </label>
+                <label class="form-check-label"> Fee Status</label>
+                     <select asp-for="isFeePaid" name="isFeePaid">
+                    <option value="true">Paid</option>
+                    <option value="false">Not Paid</option>>
+               
+                </select>
+                
+                
             </div>
             <div class="form-group">
                 <label asp-for="YearOfStudy" class="control-label"></label>

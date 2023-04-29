@@ -29,6 +29,7 @@ namespace College.Areas.Identity.Data
         [Required]
         public string ImageURL { get; set; }
 
+        public DateTime? LatestAttendanceMArkedTime { get; set; }
         public DepartmentsModel? department_id { get; set; }
 
         [Required]

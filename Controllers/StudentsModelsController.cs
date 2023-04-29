@@ -14,6 +14,7 @@ using Amazon.S3;
 using Amazon.S3.Transfer;
 using Microsoft.AspNetCore.Identity;
 
+
 namespace College.Controllers
 {
     public class StudentsModelsController : Controller
@@ -55,11 +56,19 @@ namespace College.Controllers
         }
 
         // GET: StudentsModels/Create
-        public IActionResult Create()
-        {
+        public async Task<IActionResult> Create()
+        { 
             string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             List<StudentsModel> s = _context.students.Include(r=>r.department_id).Where(s=>s.user_id.Id == userId).ToList();
-            if(s.Count==0)
+
+            var CurrUser =  await _userManager.FindByIdAsync(userId);
+            StudentsModel student = _context.students.FirstOrDefault(user=>user.user_id == CurrUser);
+            if(student == null)
+            {
+                return View("Error");
+            }
+
+            if (s.Count==0)
             {
                 var departments = _context.departments.Select(t => new DepartmentsModel
                 {
@@ -147,9 +156,6 @@ namespace College.Controllers
                 studentsModel.ImageURL = url;
                 studentsModel.user_id = CurrUser;
                 studentsModel.department_id= departmentValues;
-                
-
-
             }
             Console.WriteLine("Image uploaded successfully!");
 
@@ -186,15 +192,14 @@ namespace College.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("RegNo,Name,SchoolName,Percentage12th,Percentage10th,City,isFeePaid,YearOfStudy,Attendance,CGPA,Email,ImageURL")] StudentsModel studentsModel)
+        public async Task<IActionResult> Edit(int id ,bool feeStatus,[Bind("RegNo,Name,SchoolName,Percentage12th,Percentage10th,City,isFeePaid,YearOfStudy,Attendance,CGPA,Email,ImageURL")] StudentsModel studentsModel)
         {
+            //Console.WriteLine(feeStatus);
+
             if (id != studentsModel.RegNo)
             {
                 return NotFound();
             }
-
-            if (ModelState.IsValid)
-            {
                 try
                 {
                     _context.Update(studentsModel);
@@ -211,8 +216,9 @@ namespace College.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
-            }
+            studentsModel.isFeePaid = true;
+                return RedirectToAction("ViewStudents", "Admin");
+            
             return View(studentsModel);
         }
 
@@ -252,6 +258,8 @@ namespace College.Controllers
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
+
+        
 
         private bool StudentsModelExists(int id)
         {

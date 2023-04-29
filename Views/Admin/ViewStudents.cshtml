@@ -1,0 +1,99 @@
+﻿@model IEnumerable<College.Areas.Identity.Data.StudentsModel>
+
+@{
+    ViewData["Title"] = "ViewStudents";
+}
+
+<h1>ViewStudents</h1>
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SchoolName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Percentage12th)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Percentage10th)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.City)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.isFeePaid)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.YearOfStudy)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.department_id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Attendance)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CGPA)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Email)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ImageURL)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in ViewBag.studentsList) {
+        <tr>
+            <td>
+               @item.Name
+            </td>
+            <td>
+                @item.SchoolName
+            </td>
+            <td>
+                @item.Percentage12th
+            </td>
+            <td>
+                @item.Percentage10th
+            </td>
+            <td>
+                @item.City
+            </td>
+            <td>
+               @item.isFeePaid
+            </td>
+            <td>
+                @item.YearOfStudy
+            </td>
+            <td>
+                    @item.department_id.DeptName
+            </td>
+            <td>
+                @item.Attendance
+            </td>
+            <td>
+                @item.CGPA
+            </td>
+            <td>
+                @item.Email
+            </td>
+            <td>
+                @item.ImageURL
+            </td>
+            <td>
+                <a asp-action="Edit" asp-controller="StudentsModels" asp-route-id="@item.RegNo">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.RegNo">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.RegNo">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
