@@ -4,15 +4,21 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Lits of clubs</h1>
+<h1>Clubs</h1>
+
 <div class="row">
-    @foreach (var item in Model) {
-    <div class="card col-md-4"style="width: 18rem;margin: 10px 15px">
+@foreach (var item in Model) {
+
+        
+  <div class="card" style="width: 18rem;margin : 10px 20px">
+  <img class="card-img-top" src=@item.ClubImageURL alt="Club profile">
   <div class="card-body">
     <h5 class="card-title">@item.ClubName</h5>
     <p class="card-text">@item.ClubDescription</p>
-    <a asp-action="Club" asp-controller="ClubsModels" asp-route-id="@item.ClubId" class="btn btn-primary">Join Club</a>
+        <a asp-action="Details" asp-controller="ClubsModels" asp-route-id="@item.ClubId" class="btn btn-primary">Intrested</a>
   </div>
 </div>
 }
 </div>
+  
+       

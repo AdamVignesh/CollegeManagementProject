@@ -61,13 +61,19 @@ namespace College.Controllers
             string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             List<StudentsModel> s = _context.students.Include(r=>r.department_id).Where(s=>s.user_id.Id == userId).ToList();
 
-            var CurrUser =  await _userManager.FindByIdAsync(userId);
-            StudentsModel student = _context.students.FirstOrDefault(user=>user.user_id == CurrUser);
-            if(student == null)
+            var user = _userManager.GetUserId(this.User);
+            
+            if (user == null)
+            {
+                return View("Error");
+            }
+           
+            if (user.Equals("13236b44-f440-4b18-97b4-c33788227fd4"))
             {
                 return View("Error");
             }
 
+            
             if (s.Count==0)
             {
                 var departments = _context.departments.Select(t => new DepartmentsModel
@@ -105,12 +111,14 @@ namespace College.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(IFormFile file,int department, [Bind("RegNo,Name,SchoolName,Percentage12th,Percentage10th,City,isFeePaid,YearOfStudy,Attendance,CGPA,Email,ImageURL")] StudentsModel studentsModel)
         {
+
             string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             DepartmentsModel departmentValues = _context.departments.Find(department);
             //DepartmentsModel departmentValues = _context.students.Include(s=>s.department_id).Where(id => id.department_id.DeptId == department).FirstOrDefault();
             var user = _userManager.GetUserId(this.User);
             Console.WriteLine("userid: " + userId);
             var CurrUser = await _userManager.FindByIdAsync(userId);
+
 
            // Console.WriteLine(department);
             //AWS configs

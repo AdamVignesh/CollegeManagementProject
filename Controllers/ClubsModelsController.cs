@@ -9,7 +9,6 @@ using College.Areas.Identity.Data;
 using College.Data;
 using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
-using Microsoft.AspNetCore.Mvc.Razor.Compilation;
 
 namespace College.Controllers
 {
@@ -17,17 +16,26 @@ namespace College.Controllers
     {
         private readonly CollegeContext _context;
         private readonly UserManager<AspNetUsers> _userManager;
-
         public ClubsModelsController(CollegeContext context, UserManager<AspNetUsers> user)
         {
             _context = context;
             _userManager = user;
+
         }
 
         // GET: ClubsModels
         public async Task<IActionResult> Index()
         {
-              return _context.clubs != null ? 
+            var user = _userManager.GetUserId(this.User);
+            if(user==null)
+            {
+                return View("Error");
+            }
+            if (user.Equals("13236b44-f440-4b18-97b4-c33788227fd4"))
+            {
+                return View("Error");
+            }
+            return _context.clubs != null ? 
                           View(await _context.clubs.ToListAsync()) :
                           Problem("Entity set 'CollegeContext.clubs'  is null.");
         }
@@ -50,21 +58,7 @@ namespace College.Controllers
             return View(clubsModel);
         }
 
-        public async Task<IActionResult> Club(int ClubId)
-        {
-            return View();
-            
-        }
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Club(int ClubId)
-        {
-            string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var CurrUser = await _userManager.FindByIdAsync(userId);
-            StudentsModel student = _context.students.FirstOrDefault(user => user.user_id == CurrUser);
-            Console.WriteLine("CLubId " + ClubId + "studentID " + student.RegNo);
-            return View("Index");
-        }
+      
         // GET: ClubsModels/Create
         public IActionResult Create()
         {
@@ -76,7 +70,7 @@ namespace College.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ClubId,ClubName,ClubDescription")] ClubsModel clubsModel)
+        public async Task<IActionResult> Create([Bind("ClubId,ClubName,ClubDescription,ClubImageURL")] ClubsModel clubsModel)
         {
             if (ModelState.IsValid)
             {
@@ -108,7 +102,7 @@ namespace College.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ClubId,ClubName,ClubDescription")] ClubsModel clubsModel)
+        public async Task<IActionResult> Edit(int id, [Bind("ClubId,ClubName,ClubDescription,ClubImageURL")] ClubsModel clubsModel)
         {
             if (id != clubsModel.ClubId)
             {
@@ -138,6 +132,50 @@ namespace College.Controllers
             return View(clubsModel);
         }
 
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Details(int id)
+        {
+            Console.WriteLine("In delete Post--------- "+id);
+            string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var CurrUser = await _userManager.FindByIdAsync(userId);
+            JoinedClubsModel joinedClub = new JoinedClubsModel();
+            if (CurrUser != null)
+            {
+                var ClubsJoinedByCurrUser = _context.joinedClubs.Include(clubs => clubs.club_id).Include(student => student.reg_no).Where(s => s.reg_no.user_id.Id == CurrUser.Id).ToList();
+                foreach(var item in ClubsJoinedByCurrUser)
+                {
+                    if(item.club_id.ClubId == id)
+                    {
+                        return View("AlreadyAMember");
+                    }
+                }
+
+                ClubsModel club = _context.clubs.Where(club => club.ClubId == id).FirstOrDefault();
+                StudentsModel student = _context.students.Where(student => student.user_id.Id == CurrUser.Id).FirstOrDefault();
+                joinedClub.club_id = club;
+                joinedClub.reg_no = student;
+
+                _context.joinedClubs.Add(joinedClub);
+                _context.SaveChanges();
+            }
+
+            return RedirectToAction("MyClubs");
+        }
+
+        public async Task<IActionResult> AlreadyAMember()
+        {
+            return View();
+        }
+        public async Task<IActionResult> MyClubs()
+        {
+            string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var CurrUser = await _userManager.FindByIdAsync(userId);
+
+            var ClubsJoinedByCurrUser = _context.joinedClubs.Include(clubs=>clubs.club_id).Include(student=>student.reg_no).Where(s => s.reg_no.user_id.Id == CurrUser.Id).ToList();
+            return View(ClubsJoinedByCurrUser);
+        }
         // GET: ClubsModels/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {

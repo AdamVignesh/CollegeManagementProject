@@ -1,0 +1,19 @@
+﻿@model IEnumerable<College.Areas.Identity.Data.JoinedClubsModel>
+
+@{
+    ViewData["Title"] = "MyClubs";
+}
+
+<h1>MyClubs</h1>
+<div class = "row">
+@foreach (var item in Model) {
+        <div class="card col-md-4" style="width: 18rem;margin:20px 20px">
+  <img class="card-img-top" src=@item.club_id.ClubImageURL alt="Club's Profile">
+  <div class="card-body">
+    <h5 class="card-title">@item.club_id.ClubName</h5>
+    <p class="card-text">@item.club_id.ClubDescription</p>
+  </div>
+</div>
+}
+<a class="btn btn-primary" asp-action="Index">Back To List</a>
+</div>

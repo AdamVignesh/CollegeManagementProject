@@ -1,0 +1,38 @@
+﻿@model IEnumerable<College.Areas.Identity.Data.JoinedClubsModel>
+
+@{
+    ViewData["Title"] = "JoinClub";
+}
+
+<h1>JoinClub</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.CludHead)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.club_id.ClubName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.club_id.ClubDescription)
+            </td>
+             <td>
+                <a asp-action="Edit" asp-route-id="@item.JoinedClubId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.JoinedClubId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.JoinedClubId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

@@ -12,6 +12,9 @@ namespace College.Areas.Identity.Data
 
         [Required]
         public string ClubDescription { get;set;}
+
+        [Required]
+        public string ClubImageURL { get; set; }
     }
 
 }

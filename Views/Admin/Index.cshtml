@@ -5,13 +5,26 @@
 }
 
 <h3>Hey Admin</h3>
-
-<h6>Departments</h6>
-<button class="button"><a asp-action="Index" asp-controller="DepartmentsModels">GO</a> </button>
-
-
-<h6>View Students</h6>
-<button class="button"><a asp-action="ViewStudents" asp-controller="Admin">GO</a> </button>
-
-<h6>View Clubs</h6>
-<button class="button"><a asp-action="Index" asp-controller="AdminClubsModels">GO</a> </button>
+<div class="row"> 
+<div class="card col-md-4" style="width: 18rem;margin:20px 20px">
+  <div class="card-body">
+    <h5 class="card-title">Departments</h5>
+    <p class="card-text">Have a look on the departments in our college</p>
+    <a class="btn btn-primary" asp-action="Index" asp-controller="DepartmentsModels">GO</a>
+  </div>
+</div>
+<div class="card col-md-4" style="width: 18rem;margin:20px 20px">
+  <div class="card-body">
+    <h5 class="card-title">Students</h5>
+    <p class="card-text">Have a look on all the student's details</p>
+    <a class="btn btn-primary" asp-action="ViewStudents" asp-controller="Admin">GO</a>
+  </div>
+</div>
+<div class="card col-md-4" style="width: 18rem;margin:20px 20px">
+  <div class="card-body">
+    <h5 class="card-title">Clubs</h5>
+    <p class="card-text">Have a look on the clubs in our college</p>
+    <a class="btn btn-primary" asp-action="Index" asp-controller="AdminClubsModels">GO</a>
+  </div>
+</div>
+</div>
