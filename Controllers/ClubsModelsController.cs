@@ -47,6 +47,22 @@ namespace College.Controllers
             {
                 return NotFound();
             }
+            string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var CurrUser = await _userManager.FindByIdAsync(userId);
+            var ClubsJoinedByCurrUser = _context.joinedClubs.Include(clubs => clubs.club_id).Include(student => student.reg_no).Where(s => s.reg_no.user_id.Id == CurrUser.Id).ToList();
+            foreach (var item in ClubsJoinedByCurrUser)
+            {
+                if (item.club_id.ClubId == id)
+                {
+                    ViewBag.IsAMember = "true";
+                    break;
+                }
+                else
+                {
+                    ViewBag.IsAMember = "false";
+
+                }
+            }
 
             var clubsModel = await _context.clubs
                 .FirstOrDefaultAsync(m => m.ClubId == id);
@@ -176,6 +192,18 @@ namespace College.Controllers
             var ClubsJoinedByCurrUser = _context.joinedClubs.Include(clubs=>clubs.club_id).Include(student=>student.reg_no).Where(s => s.reg_no.user_id.Id == CurrUser.Id).ToList();
             return View(ClubsJoinedByCurrUser);
         }
+
+        public async Task<IActionResult> ExitClub(int id)
+        {
+            string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var CurrUser = await _userManager.FindByIdAsync(userId);
+
+            JoinedClubsModel ClubToBeRemoved = _context.joinedClubs.Where(club => club.JoinedClubId==id).FirstOrDefault();
+            _context.Remove(ClubToBeRemoved);
+            _context.SaveChanges();
+            return RedirectToAction("MyClubs",ClubToBeRemoved);
+        }
+
         // GET: ClubsModels/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {

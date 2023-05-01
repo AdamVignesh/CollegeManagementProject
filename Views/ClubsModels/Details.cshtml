@@ -14,10 +14,19 @@
         <dd class = "col-md-6">
             @Model.ClubDescription
             <br /><br />
-         <button type = "submit">
-             <a class ="btn btn-success">Join Now</a>
-             </button>
-            <a class ="btn btn-danger" asp-action="Index">Back to List</a>
+                @if (@ViewBag.IsAMember.Equals("true"))
+                {
+                    <a class="btn btn-danger" asp-action="MyClubs">Back to List</a>
+
+                }
+                else
+                {
+                    <button type="submit">
+                        <a class="btn btn-success">Join Now</a>
+                    </button>
+                        <a class="btn btn-danger" asp-action="Index">Back to List</a>
+                }
+
         </dd>
         
     </dl>

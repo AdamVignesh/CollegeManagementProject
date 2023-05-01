@@ -12,6 +12,8 @@
   <div class="card-body">
     <h5 class="card-title">@item.club_id.ClubName</h5>
     <p class="card-text">@item.club_id.ClubDescription</p>
+    <a class="btn btn-primary" asp-action="Details" asp-route-id="@item.club_id.ClubId">View Details</a>
+    <a class="btn btn-danger"asp-action="ExitClub" asp-route-id="@item.JoinedClubId">Exit Club</a>
   </div>
 </div>
 }
