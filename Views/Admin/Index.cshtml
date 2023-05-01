@@ -27,9 +27,13 @@
     <a class="btn btn-primary" asp-action="Index" asp-controller="AdminClubsModels">GO</a>
   </div>
 </div>
+    <div class="card col-md-4" style="width: 18rem;margin:20px 20px">
+        <div class="card-body">
+            <h5 class="card-title">Suggestions</h5>
+            <p class="card-text">All the Valueable suggestions from the students goes here.</p>
+            <a class="btn btn-primary" asp-action="Index" asp-controller="AdminSuggestionsModels">GO</a>
+        </div>
+    </div>
 
-    @if (@ViewBag.FeeStatus.Equals("True"))
-    {
-        <p>Paid fees da dei</p>
-    }
+
 </div>

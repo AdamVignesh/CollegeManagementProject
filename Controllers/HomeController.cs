@@ -1,10 +1,13 @@
-﻿using College.Areas.Identity.Data;
+﻿using Amazon.Runtime.Internal.Transform;
+using Amazon.S3.Model;
+using College.Areas.Identity.Data;
 using College.Data;
 using College.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
+using Razorpay.Api;
 using System.Diagnostics;
 using System.Security.Claims;
 using static Amazon.S3.Util.S3EventNotification;
@@ -68,25 +71,51 @@ namespace College.Controllers
 
             string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             var CurrUser = await _userManager.FindByIdAsync(userId);
+            StudentsModel student = _context.students.FirstOrDefault(u => u.user_id == CurrUser);
+            
             if(CurrUser==null)
             {
                 return RedirectToPage("/Account/Login", new { area = "Identity" });
             }
-            else if(CurrUser.Id == "13236b44-f440-4b18-97b4-c33788227fd4")
+            else if(CurrUser.Email == "admin@gmail.com")
             {
-                return View();
+                return RedirectToAction("Index","Admin");
             }
-            StudentsModel student = _context.students.FirstOrDefault(u => u.user_id == CurrUser);
 
             // do this for all values and add to viewbag   CurrStudent.isFeePaid
-            ViewBag.FeeStatus = student.isFeePaid;
-            Console.WriteLine(student.isFeePaid);
-            ViewBag.YearOfStudy = student.YearOfStudy;
 
             return View(student);
         }
-        
 
+        public async Task<IActionResult> PayFees()
+        {
+            return View();
+        }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> PayFees(int ? id)
+        {
+            Console.WriteLine("IN pay fees top");
+            IConfiguration config = new ConfigurationBuilder()
+     .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+     .Build();
+            RazorpayClient client = new RazorpayClient(config["RazorPayKey"], config["AccessKey"]);
+
+            var orderOptions = new Dictionary<string, object>
+            {
+                { "amount", 100 },
+                { "currency", "INR" },
+                { "receipt", "order_rcptid_11" },
+                { "payment_capture", 1 }
+            };
+            var order = client.Order.Create(orderOptions);
+            Console.WriteLine("IN pay fees bottom");
+
+
+            return View("Index");
+        }
         public IActionResult Privacy()
         {
             return View();

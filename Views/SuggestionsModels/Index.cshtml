@@ -1,0 +1,24 @@
+﻿@model IEnumerable<College.Areas.Identity.Data.SuggestionsModel>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Make a Suggestion</a>
+</p>
+<div class="row">
+@foreach(var item in Model)
+{
+    <div class="col-md-4" style ="margin:30px 30px">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">@item.Status</h5>
+                    <p class="card-text">@item.SuggestionMessage</p>
+                </div>
+            </div>
+    </div>
+}
+</div>

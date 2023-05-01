@@ -1,4 +1,6 @@
-﻿@{
+﻿@model College.Areas.Identity.Data.StudentsModel
+
+@{
     ViewData["Title"] = "Home Page";
 }
 
@@ -26,7 +28,11 @@ else if(ViewBag.isAttendanceMarked!= null && !ViewBag.isAttendanceAdded)
 }
 <div class="text-center">
     <h1 class="display-4">Welcome to Our College</h1>
-     <a class="btn btn-warning" asp-action="attendance">MarkAttendance </a> 
+     <a class="btn btn-warning" asp-action="attendance">MarkAttendance </a>
+    @if (Model.isFeePaid != true)
+    {
+        <a class="btn btn-warning" asp-action="PayFees">Pay Fees </a>
+    }
 <br /><br />
 
 <img src=""/>
@@ -51,8 +57,6 @@ else if(ViewBag.isAttendanceMarked!= null && !ViewBag.isAttendanceAdded)
       </div>
     </div>
   </div>
-</div>
-<div class="row">
         <div style="margin:30px 0 0 0" class="col-sm-6">
         <div class="card">
             <div class="card-body">
@@ -62,8 +66,13 @@ else if(ViewBag.isAttendanceMarked!= null && !ViewBag.isAttendanceAdded)
             </div>
         </div>
     </div>
-</div>
-
-@*@if(@ViewBag.isFeePai)*@
-   </div>
-</div>
+        <div style="margin:30px 0 0 0" class="col-sm-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Suggestion Booth</h5>
+                    <p class="card-text">Suggestions for the betterment of all of us are always welcomed</p>
+                    <a asp-controller="SuggestionsModels" asp-action="Index" class="btn btn-primary">Let's Go</a>
+                </div>
+            </div>
+        </div>
+    </div>

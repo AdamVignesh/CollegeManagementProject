@@ -1,0 +1,33 @@
+﻿@model College.Areas.Identity.Data.SuggestionsModel
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h3>Make your valuable suggestion here! </h3>
+
+<form asp-action="Create">
+    <div class="card" style="width: 38rem;margin:90px 270px">
+        <div class="card-body">
+            <h5 class="card-title">Suggestion Message</h5>
+            <h6 class="card-subtitle mb-2 text-muted">This suggestion will be looked over within 3 days</h6>
+
+                <div class="form-group">
+                    <textarea rows="5" asp-for="SuggestionMessage" class="form-control" >
+
+                        </textarea>
+                    <span asp-validation-for="SuggestionMessage" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Create" class="btn btn-primary" />
+                </div>
+        </div>
+    </div>
+</form>
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
