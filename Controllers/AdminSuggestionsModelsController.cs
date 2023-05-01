@@ -20,11 +20,32 @@ namespace College.Controllers
         }
 
         // GET: AdminSuggestionsModels
+        //Lists only the suggestions whose status is PROCESSING
+
         public async Task<IActionResult> Index()
         {
-              return _context.suggestions != null ? 
-                          View(await _context.suggestions.ToListAsync()) :
-                          Problem("Entity set 'CollegeContext.suggestions'  is null.");
+            var x = _context.suggestions.Include(student=>student.Students).Where(s =>s.Status == "Processing");
+            foreach(var item in x)
+            {
+                Console.WriteLine(item);
+            }
+            return View(x);  
+              
+        }
+
+        //Lists only the suggestions whose status is ACTING ON IT
+        public async Task<IActionResult> ActingOnIt()
+        { 
+            var Suggestions = _context.suggestions.Where(suggestion => suggestion.Status == "Acting on it");
+            return View(Suggestions);
+
+        }
+        //Lists only the suggestions whose status is RESOLVED
+        public async Task<IActionResult> ResolvedSuggestions()
+        {
+            var Suggestions = _context.suggestions.Where(suggestion => suggestion.Status == "Resolved");
+            return View(Suggestions);
+
         }
 
         // GET: AdminSuggestionsModels/Details/5
@@ -43,6 +64,25 @@ namespace College.Controllers
             }
 
             return View(suggestionsModel);
+        }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Details(int id)
+        {
+            var CurrSuggestion = _context.suggestions.Where(s => s.SuggestionId == id).FirstOrDefault();
+
+            if (CurrSuggestion.Status == "Processing")
+            {
+                CurrSuggestion.Status = "Acting on it";
+            }
+            else if(CurrSuggestion.Status == "Acting on it")
+            {
+                CurrSuggestion.Status = "Resolved";
+            }
+                _context.SaveChanges();
+            return RedirectToAction("Index", CurrSuggestion);
         }
 
         // GET: AdminSuggestionsModels/Create

@@ -4,38 +4,26 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1>List of all the suggestions</h1>
+<a class="btn btn-primary" asp-action="ActingOnIt" asp-asp-controller="AdminSuggestionsModels">View acting on it suggestions</a>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.SuggestionMessage)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Status)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.SuggestionMessage)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Status)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.SuggestionId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.SuggestionId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.SuggestionId">Delete</a>
-            </td>
-        </tr>
+<a class="btn btn-primary" asp-action="ResolvedSuggestions" asp-asp-controller="AdminSuggestionsModels">View Resolved suggestions</a>
+<br />
+<br />
+<div class="row"> 
+@foreach(var suggestion in Model)
+{
+    <div class="card col-md-4" style="width: 18rem;">
+        <div class="card-body">
+            <h5 class="card-title">@suggestion.Students.Name</h5>
+            <h6 class="card-subtitle mb-2 text-muted">@suggestion.Students.Email</h6>
+            <p class="card-text">@suggestion.SuggestionMessage</p>
+            <a class="btn btn-primary" asp-action="Details" asp-route-id="@suggestion.SuggestionId">View</a>
+        </div>
+
+    </div>
 }
-    </tbody>
-</table>
+</div>
+
+
+
