@@ -3,8 +3,72 @@
 *@
 @{
 }
-<p> fees ra elai
-    <form method="post">
-        <input type="submit" value="Submit">
-    </form>
-</p>
+
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
+<script>
+
+    function PaymentProcess(accessKey,orderId) {
+
+        console.log("In payment");
+        console.log("id");
+        //var amount = document.getElementById("payment_price").value;
+        var amount =100;
+     
+        var orderId = orderId;
+        console.log(orderId);
+        var options = {
+            "key": accessKey,
+            "amount": "101",
+            "currency": "INR",
+            "name": "Acme Corp",
+            "description": "Recharge",
+            "order_id": orderId,
+            "image": "https://example.com/your_logo",
+            "handler": function (response) {
+                console.log(response);
+                var div = document.createElement("div");
+                div.setAttribute("id", "successMessage");
+                var h2 = document.createElement("h2");
+                var text = document.createTextNode("Payment successful!");
+                h2.appendChild(text);
+                div.appendChild(h2);
+                document.body.appendChild(div);
+                // Get the button element
+                var button = document.querySelector("button[hidden]");
+
+                // Unhide the button by removing the hidden attribute
+                button.removeAttribute("hidden");
+            },
+            "prefill": {
+                "name": "Name",
+                "email": "test@example.com",
+                "contact": "+919000090000",
+            },
+            "callback_url": "https://localhost:7119/",
+            //"redirect": true,
+            "notes": {  
+                "address": "Hello World"
+            },
+            "theme": {
+                "color": "#3399cc"
+            }
+        }
+
+        var rzp = new Razorpay(options);
+        rzp.open();
+
+    }
+
+</script>
+
+
+<p> fees ra elai</p>
+
+<button class="btn btn-primary" onclick="PaymentProcess('@ViewBag.AccessKey','@ViewBag.OrderId')">Pay Now</button>
+<input value = ""id="paymentSuccess" type="hidden">
+
+<button hidden>done</button>
+
+    <p>@ViewBag.AccessKey</p>
+    <p>@ViewBag.OrderId</p>

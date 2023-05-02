@@ -3,13 +3,16 @@ using Amazon.S3.Model;
 using College.Areas.Identity.Data;
 using College.Data;
 using College.Models;
+using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using Razorpay.Api;
 using System.Diagnostics;
 using System.Security.Claims;
+using System.Text;
 using static Amazon.S3.Util.S3EventNotification;
 
 namespace College.Controllers
@@ -89,20 +92,15 @@ namespace College.Controllers
 
         public async Task<IActionResult> PayFees()
         {
-            return View();
-        }
-
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> PayFees(int ? id)
-        {
-            Console.WriteLine("IN pay fees top");
+            // string apiUrl = "https://api.razorpay.com/v1/orders";
             IConfiguration config = new ConfigurationBuilder()
      .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
      .Build();
-            RazorpayClient client = new RazorpayClient(config["RazorPayKey"], config["AccessKey"]);
 
+            string apiUrl = "https://api.razorpay.com/v1/orders";
+         
+            RazorpayClient client = new RazorpayClient(config["RazorPayKey"], config["RazorSecretKey"]);
+            
             var orderOptions = new Dictionary<string, object>
             {
                 { "amount", 100 },
@@ -111,10 +109,13 @@ namespace College.Controllers
                 { "payment_capture", 1 }
             };
             var order = client.Order.Create(orderOptions);
-            Console.WriteLine("IN pay fees bottom");
-
-
-            return View("Index");
+            string orderId = order["id"].ToString();
+            ViewBag.OrderId = orderId;
+            ViewBag.AccessKey = config["RazorPaykey"];
+            ViewBag.amount = 100;
+           
+           
+            return View();
         }
         public IActionResult Privacy()
         {
