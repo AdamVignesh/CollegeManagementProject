@@ -19,7 +19,7 @@
         console.log(orderId);
         var options = {
             "key": accessKey,
-            "amount": "101",
+            "amount": "10000001",
             "currency": "INR",
             "name": "Acme Corp",
             "description": "Recharge",
@@ -29,16 +29,21 @@
                 console.log(response);
                 var div = document.createElement("div");
                 div.setAttribute("id", "successMessage");
-                var h2 = document.createElement("h2");
-                var text = document.createTextNode("Payment successful!");
-                h2.appendChild(text);
-                div.appendChild(h2);
-                document.body.appendChild(div);
+                
+                
                 // Get the button element
                 var button = document.querySelector("button[hidden]");
-
+                var paragraph = document.querySelector("h3[hidden]");
+                var payButton = document.getElementById("PayButton");
+                //  var payParagraph = document.getElementById("PayFeesParagraph");
+                
                 // Unhide the button by removing the hidden attribute
+
                 button.removeAttribute("hidden");
+                paragraph.removeAttribute("hidden");
+                payButton.style.display = "none";
+                //payParagraph.style.display) = "none";
+
             },
             "prefill": {
                 "name": "Name",
@@ -62,12 +67,14 @@
 
 </script>
 
+<h5 id="PayFeesParagraph"> Pay Fees here!</h5>
 
-<p> Pay Fees here!</p>
-
-<button class="btn btn-primary" onclick="PaymentProcess('@ViewBag.AccessKey','@ViewBag.OrderId')">Pay Now</button>
-<input value = ""id="paymentSuccess" type="hidden">
+<div  style="width:800px; margin:70px 500px ">
+<button id="PayButton" class="btn btn-primary" onclick="PaymentProcess('@ViewBag.AccessKey','@ViewBag.OrderId')">Pay Now</button>
+<input value = "" id="paymentSuccess" type="hidden">
 <form method="post">
+    <br>
+<h3 hidden> Payment Successful</h3>
 <button class="btn btn-primary"type="submit" hidden>done</button>
 </form>
-  
+</div>
