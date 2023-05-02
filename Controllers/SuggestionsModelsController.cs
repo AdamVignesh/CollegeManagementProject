@@ -33,7 +33,7 @@ namespace College.Controllers
             string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             var CurrUser = await _userManager.FindByIdAsync(userId);
 
-            var CurrUserSuggestion = _context.suggestions.Include(student => student.Students).Where(User => User.Students.user_id.Id == CurrUser.Id).ToList() ;
+            var CurrUserSuggestion = _context.suggestions.Include(student => student.Students).Where(User => User.Students.user_id.Id == CurrUser.Id && (User.Status == "Processing" ||User.Status == "Acting on it")).ToList() ;
 
             if(CurrUserSuggestion.Count == 0)
             {
@@ -41,6 +41,20 @@ namespace College.Controllers
             }
             return View(CurrUserSuggestion);
 
+        }
+
+        public async Task<IActionResult>ResolvedSuggestions()
+        {
+            string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var CurrUser = await _userManager.FindByIdAsync(userId);
+
+            var CurrUserSuggestion = _context.suggestions.Include(student => student.Students).Where(User => User.Students.user_id.Id == CurrUser.Id && User.Status == "Resolved").ToList();
+
+            if (CurrUserSuggestion.Count == 0)
+            {
+                return RedirectToAction("Create");
+            }
+            return View(CurrUserSuggestion);
         }
 
         // GET: SuggestionsModels/Details/5

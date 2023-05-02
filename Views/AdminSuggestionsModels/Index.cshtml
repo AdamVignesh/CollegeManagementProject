@@ -4,7 +4,8 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>List of all the suggestions</h1>
+<h1>Suggestions</h1>
+<p>List of all the suggestions that are yet to be looked onto</p>
 <a class="btn btn-primary" asp-action="ActingOnIt" asp-asp-controller="AdminSuggestionsModels">View acting on it suggestions</a>
 
 <a class="btn btn-primary" asp-action="ResolvedSuggestions" asp-asp-controller="AdminSuggestionsModels">View Resolved suggestions</a>
@@ -13,7 +14,7 @@
 <div class="row"> 
 @foreach(var suggestion in Model)
 {
-    <div class="card col-md-4" style="width: 18rem;">
+    <div class="card col-md-4" style="width: 18rem;margin:30px 30px">
         <div class="card-body">
             <h5 class="card-title">@suggestion.Students.Name</h5>
             <h6 class="card-subtitle mb-2 text-muted">@suggestion.Students.Email</h6>

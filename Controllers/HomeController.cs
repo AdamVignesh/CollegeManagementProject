@@ -117,6 +117,19 @@ namespace College.Controllers
            
             return View();
         }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult>PayFees(int? id)
+        {
+            Console.WriteLine("In fees post");
+            string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var CurrUser = await _userManager.FindByIdAsync(userId);
+            StudentsModel student = _context.students.FirstOrDefault(u => u.user_id == CurrUser);
+            student.isFeePaid = true;
+            _context.SaveChanges();
+            return RedirectToAction("Index",student);
+        }
         public IActionResult Privacy()
         {
             return View();

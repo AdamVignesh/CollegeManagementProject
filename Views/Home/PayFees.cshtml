@@ -63,12 +63,11 @@
 </script>
 
 
-<p> fees ra elai</p>
+<p> Pay Fees here!</p>
 
 <button class="btn btn-primary" onclick="PaymentProcess('@ViewBag.AccessKey','@ViewBag.OrderId')">Pay Now</button>
 <input value = ""id="paymentSuccess" type="hidden">
-
-<button hidden>done</button>
-
-    <p>@ViewBag.AccessKey</p>
-    <p>@ViewBag.OrderId</p>
+<form method="post">
+<button class="btn btn-primary"type="submit" hidden>done</button>
+</form>
+  

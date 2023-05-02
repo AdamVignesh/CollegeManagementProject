@@ -1,26 +1,25 @@
 ﻿@model IEnumerable<College.Areas.Identity.Data.SuggestionsModel>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "ResolvedSuggestions";
 }
 
-<h1>My Suggestions</h1>
+<h1>My Resolved Suggestions</h1>
 
 <p>
-    <a class ="btn btn-primary"asp-action="Create">Make a Suggestion</a>
-    <a class="btn btn-primary" asp-action="ResolvedSuggestions">View Resolved Suggestion</a>
+    <a class="btn btn-primary" asp-action="Index">View Suggestions in Progress</a>
 
 </p>
 <div class="row">
-@foreach(var item in Model)
-{
-    <div class="col-md-4" style ="margin:30px 30px">
+    @foreach (var item in Model)
+    {
+        <div class="col-md-4" style="margin:30px 30px">
             <div class="card">
                 <div class="card-body">
                     <h5 class="card-title">@item.Status</h5>
                     <p class="card-text">@item.SuggestionMessage</p>
                 </div>
             </div>
-    </div>
-}
+        </div>
+    }
 </div>
