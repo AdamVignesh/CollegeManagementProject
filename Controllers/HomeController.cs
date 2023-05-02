@@ -9,25 +9,30 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
+using Newtonsoft.Json;
 using Razorpay.Api;
 using System.Diagnostics;
+using System.Drawing.Text;
 using System.Security.Claims;
 using System.Text;
 using static Amazon.S3.Util.S3EventNotification;
 
 namespace College.Controllers
 {
+
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
         private readonly CollegeContext _context;
         private readonly UserManager<AspNetUsers> _userManager;
-       
+        private readonly HttpClient _client;
+
         public HomeController(CollegeContext context, ILogger<HomeController> logger, UserManager<AspNetUsers> user)
         {
             _context = context;
             _logger = logger;
             _userManager = user;
+            _client = new HttpClient();
 
         }
         //checked attendance btn
@@ -84,6 +89,19 @@ namespace College.Controllers
             {
                 return RedirectToAction("Index","Admin");
             }
+
+            List<EventsModel> s = new List<EventsModel>();
+
+            HttpResponseMessage response = _client.GetAsync("https://localhost:7241/api/EventsModels").Result;
+
+            if(response.IsSuccessStatusCode)
+            {
+                string data = response.Content.ReadAsStringAsync().Result;
+                s = JsonConvert.DeserializeObject<List<EventsModel>>(data);
+
+                Console.WriteLine("============="+s);
+            }
+
 
             // do this for all values and add to viewbag   CurrStudent.isFeePaid
 
