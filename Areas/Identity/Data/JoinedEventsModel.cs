@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace College.Areas.Identity.Data
 {
@@ -6,9 +7,14 @@ namespace College.Areas.Identity.Data
     {
         [Key]
         public int JoinedEventsId { get; set; }
+
+        [ForeignKey("students")]
+        public int reg_no { get; set; }
+        
+        [ForeignKey("events")]
+        public int event_id { get; set; }
+
         [Required]
-        public StudentsModel reg_no { get; set; }
-        [Required]
-        public EventsModel event_id { get;}
+        public string Status { get; set; }
     }
 }

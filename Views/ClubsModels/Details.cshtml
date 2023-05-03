@@ -14,9 +14,10 @@
         <dd class = "col-md-6">
             @Model.ClubDescription
             <br /><br />
-                @if (@ViewBag.IsAMember.Equals("true"))
+            
+                @if (@ViewBag.IsAMember!=null && @ViewBag.IsAMember.Equals("true"))
                 {
-                    <a class="btn btn-danger" asp-action="MyClubs">Back to List</a>
+                    <a class="btn btn-danger" asp-action="Index">Back to List</a>
 
                 }
                 else

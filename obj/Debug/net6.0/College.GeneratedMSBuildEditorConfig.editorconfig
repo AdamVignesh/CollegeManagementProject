@@ -68,6 +68,26 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5DbHVic01vZGVsc1xJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/HP/source/College/College/Views/AdminEventsModels/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5FdmVudHNNb2RlbHNcQ3JlYXRlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/HP/source/College/College/Views/AdminEventsModels/Delete.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5FdmVudHNNb2RlbHNcRGVsZXRlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/HP/source/College/College/Views/AdminEventsModels/Details.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5FdmVudHNNb2RlbHNcRGV0YWlscy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/HP/source/College/College/Views/AdminEventsModels/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5FdmVudHNNb2RlbHNcRWRpdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/HP/source/College/College/Views/AdminEventsModels/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5FdmVudHNNb2RlbHNcSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/HP/source/College/College/Views/AdminSuggestionsModels/ActingOnIt.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5TdWdnZXN0aW9uc01vZGVsc1xBY3RpbmdPbkl0LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
@@ -156,6 +176,34 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRGVwYXJ0bWVudHNNb2RlbHNcSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/HP/source/College/College/Views/EventsModels/AlreadyRegistered.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRXZlbnRzTW9kZWxzXEFscmVhZHlSZWdpc3RlcmVkLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/HP/source/College/College/Views/EventsModels/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRXZlbnRzTW9kZWxzXENyZWF0ZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/HP/source/College/College/Views/EventsModels/Delete.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRXZlbnRzTW9kZWxzXERlbGV0ZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/HP/source/College/College/Views/EventsModels/Details.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRXZlbnRzTW9kZWxzXERldGFpbHMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/HP/source/College/College/Views/EventsModels/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRXZlbnRzTW9kZWxzXEVkaXQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/HP/source/College/College/Views/EventsModels/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRXZlbnRzTW9kZWxzXEluZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/HP/source/College/College/Views/EventsModels/MyEvents.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRXZlbnRzTW9kZWxzXE15RXZlbnRzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/HP/source/College/College/Views/Home/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
@@ -190,6 +238,26 @@ build_metadata.AdditionalFiles.CssScope =
 
 [C:/Users/HP/source/College/College/Views/JoinedClubsModels/JoinClub.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSm9pbmVkQ2x1YnNNb2RlbHNcSm9pbkNsdWIuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/HP/source/College/College/Views/JoinedEventsModels/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSm9pbmVkRXZlbnRzTW9kZWxzXENyZWF0ZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/HP/source/College/College/Views/JoinedEventsModels/Delete.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSm9pbmVkRXZlbnRzTW9kZWxzXERlbGV0ZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/HP/source/College/College/Views/JoinedEventsModels/Details.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSm9pbmVkRXZlbnRzTW9kZWxzXERldGFpbHMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/HP/source/College/College/Views/JoinedEventsModels/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSm9pbmVkRXZlbnRzTW9kZWxzXEVkaXQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/HP/source/College/College/Views/JoinedEventsModels/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSm9pbmVkRXZlbnRzTW9kZWxzXEluZGV4LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/HP/source/College/College/Views/Shared/Error.cshtml]

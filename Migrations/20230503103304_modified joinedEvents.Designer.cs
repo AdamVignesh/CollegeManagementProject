@@ -4,6 +4,7 @@ using College.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace College.Migrations
 {
     [DbContext(typeof(CollegeContext))]
-    partial class CollegeContextModelSnapshot : ModelSnapshot
+    [Migration("20230503103304_modified joinedEvents")]
+    partial class modifiedjoinedEvents
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -206,8 +208,9 @@ namespace College.Migrations
                     b.Property<int>("event_id")
                         .HasColumnType("int");
 
-                    b.Property<int>("reg_no")
-                        .HasColumnType("int");
+                    b.Property<string>("reg_no")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("JoinedEventsId");
 

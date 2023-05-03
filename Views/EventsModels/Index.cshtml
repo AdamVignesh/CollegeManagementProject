@@ -1,0 +1,28 @@
+﻿@model IEnumerable<College.Areas.Identity.Data.EventsModel>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>All Events</h1>
+
+<div class="row">
+    @if (Model != null)
+    {
+        @foreach (var item in Model)
+        {
+
+            <div class="card" style="width: 18rem;margin : 10px 20px">
+                <div class="card-body">
+                    <h5 class="card-title">@item.EventName</h5>
+                    <p class="card-subtitle">@item.EventType</p>
+                    <p class="card-text">@item.EventDate</p>
+                    <p class="card-text">@item.venue</p>
+                    <a asp-action="Details" asp-controller="EventsModels" asp-route-id="@item.EventId" class="btn btn-primary">Intrested</a>
+                </div>
+            </div>
+        }
+
+    }
+</div>
+

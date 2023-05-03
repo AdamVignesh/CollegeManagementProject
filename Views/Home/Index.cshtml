@@ -66,6 +66,17 @@ else if(ViewBag.isAttendanceMarked!= null && !ViewBag.isAttendanceAdded)
             </div>
         </div>
     </div>
+
+        <div style="margin:30px 0 0 0" class="col-sm-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">My Events</h5>
+                    <p class="card-text">List of Events to take part in</p>
+                    <a asp-controller="EventsModels" asp-action="Index" class="btn btn-primary">Let's Go</a>
+                </div>
+            </div>
+        </div>
+
         <div style="margin:30px 0 0 0" class="col-sm-6">
             <div class="card">
                 <div class="card-body">

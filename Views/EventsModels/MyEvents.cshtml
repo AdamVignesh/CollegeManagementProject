@@ -1,0 +1,25 @@
+﻿@model IEnumerable<College.Areas.Identity.Data.MyEventsViewModel>
+
+@{
+    ViewData["Title"] = "MyEvents";
+}
+
+<h1>MyEvents</h1>
+
+<div class="row">
+@foreach (var item in Model) {
+    <div class="col-md-4"> 
+<div class="card" style="width: 18rem; margin:30px 30px">
+    <div class="card-body">
+        <h5 class="card-title">Name: @item.event_name</h5>
+            <p class="card-subtitle">Type: @item.event_type</p>
+
+        <p class="card-text">Description: @item.event_description</p>
+        <p class="card-text">Venue: @item.event_venue</p>
+        <p class="card-text">Date: @item.event_date</p>
+    </div>
+    </div>
+</div>
+}
+</div>
+

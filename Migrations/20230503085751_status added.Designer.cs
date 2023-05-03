@@ -4,6 +4,7 @@ using College.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace College.Migrations
 {
     [DbContext(typeof(CollegeContext))]
-    partial class CollegeContextModelSnapshot : ModelSnapshot
+    [Migration("20230503085751_status added")]
+    partial class statusadded
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -203,13 +205,17 @@ namespace College.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("event_id")
+                    b.Property<int>("event_idEventId")
                         .HasColumnType("int");
 
-                    b.Property<int>("reg_no")
+                    b.Property<int>("reg_noRegNo")
                         .HasColumnType("int");
 
                     b.HasKey("JoinedEventsId");
+
+                    b.HasIndex("event_idEventId");
+
+                    b.HasIndex("reg_noRegNo");
 
                     b.ToTable("joinedEvents");
                 });
@@ -459,6 +465,25 @@ namespace College.Migrations
                         .IsRequired();
 
                     b.Navigation("club_id");
+
+                    b.Navigation("reg_no");
+                });
+
+            modelBuilder.Entity("College.Areas.Identity.Data.JoinedEventsModel", b =>
+                {
+                    b.HasOne("College.Areas.Identity.Data.EventsModel", "event_id")
+                        .WithMany()
+                        .HasForeignKey("event_idEventId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("College.Areas.Identity.Data.StudentsModel", "reg_no")
+                        .WithMany()
+                        .HasForeignKey("reg_noRegNo")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("event_id");
 
                     b.Navigation("reg_no");
                 });

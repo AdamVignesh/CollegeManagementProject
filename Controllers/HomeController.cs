@@ -25,21 +25,33 @@ namespace College.Controllers
         private readonly ILogger<HomeController> _logger;
         private readonly CollegeContext _context;
         private readonly UserManager<AspNetUsers> _userManager;
-        private readonly HttpClient _client;
 
         public HomeController(CollegeContext context, ILogger<HomeController> logger, UserManager<AspNetUsers> user)
         {
             _context = context;
             _logger = logger;
             _userManager = user;
-            _client = new HttpClient();
 
         }
         //checked attendance btn
-        public IActionResult attendance()
+        public async Task<IActionResult> attendance()
         {
+            Console.WriteLine("In attendance");
             ViewBag.isAttendanceMarked = true;
-            return View("Index");
+            string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var CurrUser = await _userManager.FindByIdAsync(userId);
+            StudentsModel student = _context.students.FirstOrDefault(u => u.user_id == CurrUser);
+
+            if(student.isFeePaid == true)
+            {
+                Console.WriteLine("In attendance ================================true");
+                ViewBag.isFeePaid = true;
+            }
+            else
+            {
+                ViewBag.isFeePaid = false;
+            }
+            return View("Index",student);
         }
 
         //marking the attendance to the db
@@ -54,6 +66,14 @@ namespace College.Controllers
             {
                 return View("Error");
             }
+            if (student.isFeePaid == true)
+            {
+                ViewBag.isFeePaid = true;
+            }
+            else
+            {
+                ViewBag.isFeePaid = false;
+            }
             Console.WriteLine(student.LatestAttendanceMArkedTime);
             DateTime? latestDateTime = student.LatestAttendanceMArkedTime;
             TimeSpan? TimeDiff =  DateTime.Now - latestDateTime ;
@@ -63,14 +83,14 @@ namespace College.Controllers
             {
                 ViewBag.isAttendanceMarked = false;
                 ViewBag.isAttendanceAdded = false;
-                return View("Index");
+                return View("Index", student);
             }
             student.Attendance = student.Attendance + 1;
             student.LatestAttendanceMArkedTime = DateTime.Now;
             ViewBag.isAttendanceAdded = true;
             ViewBag.isAttendanceMarked = false;
             _context.SaveChanges();
-            return View("Index");
+            return View("Index",student);
         }
 
 
@@ -89,19 +109,6 @@ namespace College.Controllers
             {
                 return RedirectToAction("Index","Admin");
             }
-
-            List<EventsModel> s = new List<EventsModel>();
-
-            HttpResponseMessage response = _client.GetAsync("https://localhost:7241/api/EventsModels").Result;
-
-            if(response.IsSuccessStatusCode)
-            {
-                string data = response.Content.ReadAsStringAsync().Result;
-                s = JsonConvert.DeserializeObject<List<EventsModel>>(data);
-
-                Console.WriteLine("============="+s);
-            }
-
 
             // do this for all values and add to viewbag   CurrStudent.isFeePaid
 
