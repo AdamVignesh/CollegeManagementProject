@@ -126,18 +126,22 @@ namespace College.Controllers
             List<JoinedEventsModel> joinedEvents = new List<JoinedEventsModel>();
             List<MyEventsViewModel> myEvents = new List<MyEventsViewModel>();
 
-            HttpResponseMessage response = _client.GetAsync($"https://localhost:7241/api/JoinedEventsModels?reg_no={student.RegNo}").Result;
+            HttpResponseMessage response = _client.GetAsync($"https://localhost:7241/api/JoinedEventsModels/").Result;
             
 
             if (response.IsSuccessStatusCode)
             {
                 string data = response.Content.ReadAsStringAsync().Result;
                 joinedEvents = JsonConvert.DeserializeObject<List<JoinedEventsModel>>(data);
+
+                var listOfMyEvents = joinedEvents.Where(s=>s.reg_no == student.RegNo).ToList();
                 
-                foreach (var item in joinedEvents)
+                foreach (var item in listOfMyEvents)
                 { 
 
                     MyEventsViewModel myEventViewModel = new MyEventsViewModel();
+                    var eventId = _context.events.Where(e => e.EventId == item.event_id).Select(s => s.EventId).FirstOrDefault();
+                    myEventViewModel.event_id = eventId;
                     var eventName = _context.events.Where(e => e.EventId == item.event_id).Select(s => s.EventName).FirstOrDefault();
                     myEventViewModel.event_name = eventName;
                     var eventType = _context.events.Where(e => e.EventId == item.event_id).Select(s => s.EventType).FirstOrDefault();

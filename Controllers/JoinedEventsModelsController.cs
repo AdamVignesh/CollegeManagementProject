@@ -45,7 +45,6 @@ namespace College.Controllers
           
         }
 
-        
 
         // GET: JoinedEventsModels/Details/5
         public async Task<IActionResult> Details(int? id)

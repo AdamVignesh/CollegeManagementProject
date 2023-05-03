@@ -46,9 +46,9 @@ namespace College.Controllers
         // GET: AdminEventsModels/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null || _context.events == null)
+            if (id == null || id == 0 || _context.events == null)
             {
-                return NotFound();
+                return RedirectToAction("Index");
             }
 
             var eventsModel = await _context.events
@@ -87,6 +87,8 @@ namespace College.Controllers
             return View();
             
         }
+
+
 
         // GET: AdminEventsModels/Edit/5
         public async Task<IActionResult> Edit(int? id)
