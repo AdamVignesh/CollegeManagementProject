@@ -30,7 +30,7 @@ namespace College.Controllers
         // GET: StudentsModels
         public async Task<IActionResult> Index()
         {
-
+            ViewBag.isFeePaid = false;
             return _context.students != null ? 
                           View(await _context.students.ToListAsync()) :
                           Problem("Entity set 'CollegeContext.students'  is null.");

@@ -74,7 +74,11 @@ namespace College.Controllers
             var events = _context.events.Where(e => e.EventId == id).FirstOrDefault();
 
             JoinedEventsModel joinedEvent = new JoinedEventsModel();
-
+            if(student == null)
+            {
+                ViewBag.Reason = "Enroll yourself as a student before continuing";
+                return View("Error");
+            }
             joinedEvent.reg_no = student.RegNo;
             joinedEvent.event_id = events.EventId;
             joinedEvent.Status = "NotApproved";
@@ -133,6 +137,11 @@ namespace College.Controllers
             {
                 string data = response.Content.ReadAsStringAsync().Result;
                 joinedEvents = JsonConvert.DeserializeObject<List<JoinedEventsModel>>(data);
+                if(student == null)
+                {
+                    ViewBag.Reason = "Enroll yourself as a student before continuing";
+                    return View("Error");
+                }
 
                 var listOfMyEvents = joinedEvents.Where(s=>s.reg_no == student.RegNo).ToList();
                 

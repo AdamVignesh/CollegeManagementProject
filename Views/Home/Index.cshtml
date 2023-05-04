@@ -27,9 +27,15 @@ else if(ViewBag.isAttendanceMarked!= null && !ViewBag.isAttendanceAdded)
     </div>
 }
 <div class="text-center">
-    <h1 class="display-4">Welcome to Our College</h1>
-     <a class="btn btn-warning" asp-action="attendance">MarkAttendance </a>
-    @if (Model.isFeePaid != true)
+   
+        <h1 class="display-4">Welcome to Our College</h1>
+        <a class="btn btn-warning" asp-action="attendance">MarkAttendance </a>
+    
+    @if(ViewBag.isFeePaid == null)
+    {
+        
+    }
+    else if (ViewBag.isFeePaid != true)
     {
         <a class="btn btn-warning" asp-action="PayFees">Pay Fees </a>
     }
@@ -42,7 +48,7 @@ else if(ViewBag.isAttendanceMarked!= null && !ViewBag.isAttendanceAdded)
   <div class="col-sm-6">
     <div class="card">
       <div class="card-body">
-        <h5 class="card-title">View My Card</h5>
+        <h5 class="card-title">View/Enroll</h5>
         <p class="card-text">Shows all your student details</p>
         <a asp-controller="StudentsModels" asp-action="Create" class="btn btn-primary">Let's Go</a>
       </div>
@@ -70,7 +76,7 @@ else if(ViewBag.isAttendanceMarked!= null && !ViewBag.isAttendanceAdded)
         <div style="margin:30px 0 0 0" class="col-sm-6">
             <div class="card">
                 <div class="card-body">
-                    <h5 class="card-title">My Events</h5>
+                    <h5 class="card-title">Events</h5>
                     <p class="card-text">List of Events to take part in</p>
                     <a asp-controller="EventsModels" asp-action="Index" class="btn btn-primary">Let's Go</a>
                 </div>

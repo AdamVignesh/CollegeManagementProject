@@ -157,6 +157,7 @@ namespace College.Controllers
             string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             var CurrUser = await _userManager.FindByIdAsync(userId);
             JoinedClubsModel joinedClub = new JoinedClubsModel();
+
             if (CurrUser != null)
             {
                 var ClubsJoinedByCurrUser = _context.joinedClubs.Include(clubs => clubs.club_id).Include(student => student.reg_no).Where(s => s.reg_no.user_id.Id == CurrUser.Id).ToList();
@@ -170,6 +171,11 @@ namespace College.Controllers
 
                 ClubsModel club = _context.clubs.Where(club => club.ClubId == id).FirstOrDefault();
                 StudentsModel student = _context.students.Where(student => student.user_id.Id == CurrUser.Id).FirstOrDefault();
+                if(student == null)
+                {
+                    ViewBag.Reason = "Enroll yourself as a student before continuing";
+                    return View("Error");
+                }
                 joinedClub.club_id = club;
                 joinedClub.reg_no = student;
 
@@ -188,6 +194,12 @@ namespace College.Controllers
         {
             string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             var CurrUser = await _userManager.FindByIdAsync(userId);
+            StudentsModel student = _context.students.Where(student => student.user_id.Id == CurrUser.Id).FirstOrDefault();
+            if(student == null)
+            {
+                ViewBag.Reason = "Enroll yourself as a student before continuing";
+                return View("Error");
+            }
 
             var ClubsJoinedByCurrUser = _context.joinedClubs.Include(clubs=>clubs.club_id).Include(student=>student.reg_no).Where(s => s.reg_no.user_id.Id == CurrUser.Id).ToList();
             return View(ClubsJoinedByCurrUser);

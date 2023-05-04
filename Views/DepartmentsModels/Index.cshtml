@@ -7,35 +7,29 @@
 <h1>List of Departments</h1>
 
 <p>
-    <a asp-action="Create">Add a department</a>
+    <a class="btn btn-outline-secondary" asp-action="Create">Add a department</a>
 </p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.DeptName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DeptHead)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.DeptName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DeptHead)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.DeptId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.DeptId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.DeptId">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+
+
+<div class="row">
+    @foreach (var item in Model)
+    {
+        <div style="width:20rem;margin:30px 30px; padding:20px;" class="card col-md-4">
+            <div class="card-body">
+                <table style="margin-bottom:20px">
+                    <tr>
+                        <td><strong>Department Name:</strong></td>
+                        <td>@item.DeptName</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Department Head:</strong></td>
+                        <td>@item.DeptHead</td>
+                    </tr>
+                </table>
+            <a class="btn btn-primary" asp-action="Edit" asp-route-id="@item.DeptId">Edit</a>
+            <a class="btn btn-info" asp-action="Details" asp-route-id="@item.DeptId">Details</a>
+            <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.DeptId">Delete</a>
+            </div>
+        </div>
+    }
+</div>

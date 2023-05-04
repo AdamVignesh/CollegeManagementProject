@@ -42,14 +42,15 @@ namespace College.Controllers
             var CurrUser = await _userManager.FindByIdAsync(userId);
             StudentsModel student = _context.students.FirstOrDefault(u => u.user_id == CurrUser);
 
-            if(student.isFeePaid == true)
+            if (student == null)
+            {
+                ViewBag.isFeePaid = false;
+                
+            }
+            else if (student.isFeePaid == true)
             {
                 Console.WriteLine("In attendance ================================true");
                 ViewBag.isFeePaid = true;
-            }
-            else
-            {
-                ViewBag.isFeePaid = false;
             }
             return View("Index",student);
         }
@@ -64,15 +65,16 @@ namespace College.Controllers
             StudentsModel student = _context.students.FirstOrDefault(u => u.user_id == CurrUser);
             if(student == null)
             {
+                ViewBag.Reason = "Enroll as a student and the admin shall add your attendance first";
                 return View("Error");
             }
-            if (student.isFeePaid == true)
-            {
-                ViewBag.isFeePaid = true;
-            }
-            else
+            if (student ==null )
             {
                 ViewBag.isFeePaid = false;
+            }
+            else if(student.isFeePaid == true)
+            {
+                ViewBag.isFeePaid = true;
             }
             Console.WriteLine(student.LatestAttendanceMArkedTime);
             DateTime? latestDateTime = student.LatestAttendanceMArkedTime;
@@ -96,7 +98,7 @@ namespace College.Controllers
 
         public async Task<IActionResult>Index()
         {
-
+            
             string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             var CurrUser = await _userManager.FindByIdAsync(userId);
             StudentsModel student = _context.students.FirstOrDefault(u => u.user_id == CurrUser);
@@ -109,6 +111,12 @@ namespace College.Controllers
             {
                 return RedirectToAction("Index","Admin");
             }
+            if(student == null)
+            {
+                ViewBag.isFeePaid = false;
+                return View();
+            }
+            ViewBag.isFeePaid = student.isFeePaid;
 
             // do this for all values and add to viewbag   CurrStudent.isFeePaid
 
@@ -117,7 +125,16 @@ namespace College.Controllers
 
         public async Task<IActionResult> PayFees()
         {
-            // string apiUrl = "https://api.razorpay.com/v1/orders";
+            string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var CurrUser = await _userManager.FindByIdAsync(userId);
+            StudentsModel student = _context.students.FirstOrDefault(u => u.user_id == CurrUser);
+            
+            if(student ==null)
+            {
+                ViewBag.Reason = "Enroll yourself as a student before continuing";
+                return View("Error");
+            }
+
             IConfiguration config = new ConfigurationBuilder()
      .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
      .Build();

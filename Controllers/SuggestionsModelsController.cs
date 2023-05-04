@@ -34,11 +34,19 @@ namespace College.Controllers
             var CurrUser = await _userManager.FindByIdAsync(userId);
 
             var CurrUserSuggestion = _context.suggestions.Include(student => student.Students).Where(User => User.Students.user_id.Id == CurrUser.Id && (User.Status == "Processing" ||User.Status == "Acting on it")).ToList() ;
+            StudentsModel student = _context.students.FirstOrDefault(u => u.user_id == CurrUser);
 
-            if(CurrUserSuggestion.Count == 0)
+            if (student == null)
+            {
+                ViewBag.Reason = "Enroll yourself as a student before continuing";
+                return View("Error");
+            }
+            if (CurrUserSuggestion.Count == 0)
             {
                 return RedirectToAction("Create");
             }
+
+            
             return View(CurrUserSuggestion);
 
         }

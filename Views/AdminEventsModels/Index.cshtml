@@ -4,62 +4,38 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1>All Events</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a class = "btn btn-outline-primary" asp-action="Create">Add Event</a>
 </p>
-<a class="btn btn-primary" asp-action="Index" asp-controller="AdminJoinedEventsModels">Approve For Students</a>
+<a class="btn btn-outline-success" asp-action="Index" asp-controller="AdminJoinedEventsModels">View Applicants</a>
 <a href="#" class="btn btn-default">
     <i style="color:red"class="glyphicon glyphicon-bell"></i>
-    <span style="color:black" class="badge">@ViewBag.NotificationCount</span>
+    <span style="background-color:black;color:green" class="badge">@ViewBag.NotificationCount</span>
 </a>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.EventName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.EventType)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.EventDescription)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.EventDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.venue)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.EventName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.EventType)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.EventDescription)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.EventDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.venue)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.EventId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.EventId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.EventId">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+
+<div class="row">
+    @foreach (var item in Model)
+    {
+        <div style="width:20rem;margin:30px 30px" class="card col-md-4">
+            <div class="card-body">
+                <h5 class="card-title">@item.EventName</h5>
+                <p class="card-title">Event Type: @item.EventType</p>
+                <p class="card-title">Event Type: @item.venue</p>
+                <a class="btn  btn-primary" style="font-size: 14px;" asp-action="Edit" asp-route-id="@item.EventId">Edit</a>
+                <a class="btn  btn-info" style="font-size: 14px;" asp-action="Details" asp-route-id="@item.EventId">Details</a>
+                <a class="btn  btn-danger" style="font-size: 14px;" asp-action="Delete" asp-route-id="@item.EventId">Delete</a>
+            </div>
+            
+
+        </div>
+    }
+</div>
+
+
+
+
+
+

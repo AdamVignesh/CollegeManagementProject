@@ -4,6 +4,28 @@
 }
 
 <h1 class="text-danger">Error.</h1>
-<h2 class="text-danger">Kindly log in before continuing</h2>
+<body>
+    @if (ViewBag.Reason == null)
+    {
+        <h2 class="text-danger">Kindly log in before continuing</h2>
 
+    }
+    else
+    {
+        <h2>@ViewBag.Reason</h2>
+    }
+    @*<img src ="/error.jpg" alt="imfg"/>*@
+</body>
+
+
+@*<style>
+    body {
+        background-image: url("/error.jpg");
+        background-repeat: no-repeat;
+        background-size: contain;
+        background-position: center;
+        
+    }   
+</style>
+*@
 
