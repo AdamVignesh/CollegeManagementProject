@@ -162,11 +162,12 @@ namespace College.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult>PayFees(int? id)
+        public async Task<IActionResult> PayFees(string id)
         {
-            Console.WriteLine("In fees post");
+
+            Console.WriteLine("In fees post+"+id+"+++++++++++++++++++++++++++++++");
             string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var CurrUser = await _userManager.FindByIdAsync(userId);
+            var CurrUser =  _userManager.Users.Where(s=>s.Id == userId).FirstOrDefault();
             StudentsModel student = _context.students.FirstOrDefault(u => u.user_id == CurrUser);
             student.isFeePaid = true;
             _context.SaveChanges();

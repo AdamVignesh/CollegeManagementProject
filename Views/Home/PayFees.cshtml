@@ -67,14 +67,26 @@
 
 </script>
 
-<h5 id="PayFeesParagraph"> Pay Fees here!</h5>
 
-<div  style="width:800px; margin:70px 500px ">
-<button id="PayButton" class="btn btn-primary" onclick="PaymentProcess('@ViewBag.AccessKey','@ViewBag.OrderId')">Pay Now</button>
-<input value = "" id="paymentSuccess" type="hidden">
-<form method="post">
-    <br>
-<h3 hidden> Payment Successful</h3>
-<button class="btn btn-primary"type="submit" hidden>done</button>
-</form>
+<h5 id="PayFeesParagraph">Fees Payment</h5>
+
+<div class="container-fluid">
+    <div class="row" style="margin-bottom:30px;">
+        <div class="col-md-12" style="background-color:white;">
+            <img src="/pay.jpg" class="img-fluid" alt="image"/>
+        </div>
+        <div class=" card col-md-4" >
+            <h5 id="PayFeesParagraph"> Pay Fees here!</h5>
+            <p>Your transaction is safely carried out using RazorPay</p>
+            <button id="PayButton" class="btn btn-primary" onclick="PaymentProcess('@ViewBag.AccessKey','@ViewBag.OrderId')">Pay Now</button>
+            <form method="post">
+                <br>
+                <h3 hidden style="color:greenyellow"> Payment Successful</h3>
+                <button class="btn btn-success" type="submit" hidden>done</button>
+            </form>            
+        </div>
+    </div>
 </div>
+
+
+

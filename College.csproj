@@ -8,10 +8,14 @@
 
   <ItemGroup>
     <Content Remove="wwwroot\error.jpg" />
+    <Content Remove="wwwroot\pay.jpg" />
+    <Content Remove="wwwroot\skct.jpg" />
   </ItemGroup>
 
   <ItemGroup>
     <None Include="wwwroot\error.jpg" />
+    <None Include="wwwroot\pay.jpg" />
+    <None Include="wwwroot\skct.jpg" />
   </ItemGroup>
 
   <ItemGroup>
