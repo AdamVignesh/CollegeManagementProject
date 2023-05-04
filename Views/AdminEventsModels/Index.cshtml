@@ -10,6 +10,10 @@
     <a asp-action="Create">Create New</a>
 </p>
 <a class="btn btn-primary" asp-action="Index" asp-controller="AdminJoinedEventsModels">Approve For Students</a>
+<a href="#" class="btn btn-default">
+    <i style="color:red"class="glyphicon glyphicon-bell"></i>
+    <span style="color:black" class="badge">@ViewBag.NotificationCount</span>
+</a>
 
 <table class="table">
     <thead>

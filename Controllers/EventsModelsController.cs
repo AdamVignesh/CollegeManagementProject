@@ -77,7 +77,7 @@ namespace College.Controllers
 
             joinedEvent.reg_no = student.RegNo;
             joinedEvent.event_id = events.EventId;
-            joinedEvent.Status = "Not Accepted";
+            joinedEvent.Status = "NotApproved";
 
 
             var json = JsonConvert.SerializeObject(joinedEvent);
@@ -91,7 +91,7 @@ namespace College.Controllers
 
             if (isAlreadyRegistered == null)
             {
-                ViewBag.IsAlreadyRegistered = "false";
+                Console.WriteLine("NUllllllllllllllllllllllllllllllllllll=========================================================================");
                 HttpResponseMessage response = await _client.PostAsync("https://localhost:7241/api/JoinedEventsModels", content);
               
                 if (response.IsSuccessStatusCode)
@@ -101,7 +101,7 @@ namespace College.Controllers
             }
             else
             {
-                ViewBag.IsAlreadyRegistered = true;
+                Console.WriteLine("not NUllllllllllllllllllllllllllllllllllll=========================================================================");
                 return View("AlreadyRegistered");
 
             }

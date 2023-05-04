@@ -102,16 +102,21 @@ namespace College.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin")]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public async Task<ActionResult> Delete(int id, IFormCollection collection)
         {
-            try
+            if (_context.students == null)
             {
-                return RedirectToAction(nameof(Index));
+                return  Problem("Entity set 'CollegeContext.students'  is null.");
             }
-            catch
+            var studentsModel = await _context.students.FindAsync(id);
+            if (studentsModel != null)
             {
-                return View();
+                _context.students.Remove(studentsModel);
+                return RedirectToAction("ViewStudents");
             }
+
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
         }
     }
 }

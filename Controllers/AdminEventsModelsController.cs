@@ -10,6 +10,7 @@ using College.Data;
 using Newtonsoft.Json;
 using Microsoft.AspNetCore.Identity;
 using System.Text;
+using System.Security.Claims;
 
 namespace College.Controllers
 {
@@ -38,8 +39,69 @@ namespace College.Controllers
                 string data = response.Content.ReadAsStringAsync().Result;
                 events = JsonConvert.DeserializeObject<List<EventsModel>>(data);
 
-                //Console.WriteLine("=============" + events);
+                ////////////////////////////////////////////////////
+
+                string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                var CurrUser = await _userManager.FindByIdAsync(userId);
+
+                var student = _context.students.Where(s => s.user_id.Id == CurrUser.Id).FirstOrDefault();
+                List<JoinedEventsModel> joinedEvents = new List<JoinedEventsModel>();
+                List<MyEventsViewModel> myEvents = new List<MyEventsViewModel>();
+
+                HttpResponseMessage JoinedEventsResponse = _client.GetAsync("https://localhost:7241/api/JoinedEventsModels").Result;
+                Console.WriteLine(JoinedEventsResponse.IsSuccessStatusCode + "======successcode==============================================================================");
+
+                if (JoinedEventsResponse.IsSuccessStatusCode)
+                {
+
+                    string JoinedEventsData = JoinedEventsResponse.Content.ReadAsStringAsync().Result;
+
+                    joinedEvents = JsonConvert.DeserializeObject<List<JoinedEventsModel>>(JoinedEventsData);
+                    Console.WriteLine(joinedEvents.Count + "======count==============================================================================");
+
+                    foreach (var item in joinedEvents)
+                    {
+                    Console.WriteLine(item.Status+ "======item==============================================================================");
+
+                    }
+
+                    var x = joinedEvents.Where(s => s.Status == "NotApproved").ToList();
+
+
+                    foreach (var item in x)
+                    {
+                        //   Console.WriteLine(item.JoinedEventsId + " " + " " + item.event_id + "======================================================================================");
+
+                        MyEventsViewModel myEventViewModel = new MyEventsViewModel();
+                        var joinedEventsId = _context.joinedEvents.Where(e => e.JoinedEventsId == item.JoinedEventsId).Select(s => s.JoinedEventsId).FirstOrDefault();
+                        myEventViewModel.joined_events_id = joinedEventsId;
+                        var eventId = _context.events.Where(e => e.EventId == item.event_id).Select(s => s.EventId).FirstOrDefault();
+                        myEventViewModel.event_id = eventId;
+                        var eventName = _context.events.Where(e => e.EventId == item.event_id).Select(s => s.EventName).FirstOrDefault();
+                        myEventViewModel.event_name = eventName;
+                        var eventType = _context.events.Where(e => e.EventId == item.event_id).Select(s => s.EventType).FirstOrDefault();
+                        myEventViewModel.event_type = eventType;
+                        var eventVenue = _context.events.Where(e => e.EventId == item.event_id).Select(s => s.venue).FirstOrDefault();
+                        myEventViewModel.event_venue = eventVenue;
+                        var eventDescription = _context.events.Where(e => e.EventId == item.event_id).Select(s => s.EventDescription).FirstOrDefault();
+                        myEventViewModel.event_description = eventDescription;
+                        var eventDate = _context.events.Where(e => e.EventId == item.event_id).Select(s => s.EventDate).FirstOrDefault();
+                        myEventViewModel.event_date = eventDate;
+                        var StudentRegNo = _context.students.Where(e => e.RegNo == item.reg_no).Select(s => s.RegNo).FirstOrDefault();
+                        myEventViewModel.reg_no = StudentRegNo;
+                        var StudentName = _context.students.Where(e => e.RegNo == item.reg_no).Select(s => s.Name).FirstOrDefault();
+                        myEventViewModel.student_name = StudentName;
+
+                        myEvents.Add(myEventViewModel);
+                    }
+                }
+                Console.WriteLine(myEvents.Count+"======from==============================================================================");
+                ViewBag.NotificationCount = myEvents.Count;
+                return View(events);
+
+                ////////////////////////////////////////////////////
             }
+            ViewBag.NotificationCount = 0;
             return View(events);
         }
 

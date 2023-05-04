@@ -19,8 +19,10 @@
         </div>
         <form asp-action="Index">
             <div class="card-footer"> 
-                <input name="id" value="@item.joined_events_id" />
+                <input name="id" value="@item.joined_events_id" hidden />
                 <button class="btn btn-outline-success" type="submit">Approve</button>
+                <a class="btn btn-outline-danger" asp-action="Disapprove" asp-route-id="@item.joined_events_id">Disapprove</a>
+
             </div>
             </form>
     </div>
