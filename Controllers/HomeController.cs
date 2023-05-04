@@ -172,7 +172,7 @@ namespace College.Controllers
             _context.SaveChanges();
             return RedirectToAction("Index",student);
         }
-        public IActionResult Privacy()
+        public IActionResult Support()
         {
             return View();
         }
