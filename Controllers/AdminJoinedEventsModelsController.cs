@@ -89,7 +89,7 @@ namespace College.Controllers
         }
 
 
-        public void SendEmail(string toEmail, string Subject, string Description, string EventName)
+        public void SendEmail(string Status,string toEmail, string Subject, string Description, string EventName)
         {
             try
             {
@@ -99,10 +99,10 @@ namespace College.Controllers
                 var email = new MimeMessage();
                 email.From.Add(MailboxAddress.Parse("testname1234554321@gmail.com"));
                 email.To.Add(MailboxAddress.Parse(toEmail));
-                email.Subject = "Appointment Notificatiob for : " + Subject;
+                email.Subject = Status +"Notification for : " + EventName;
                 email.Body = new TextPart(MimeKit.Text.TextFormat.Html)
                 {
-                    Text = $"<div><h1>{Description}</h1><p>{EventName}</p></div>",
+                    Text = $"<div><h1>{Description}</h1>Event <p>{EventName}</p></div>",
                 };
 
                 using var smtp = new MailKit.Net.Smtp.SmtpClient();
@@ -134,22 +134,23 @@ namespace College.Controllers
                 string emailId = _context.students.Where(s => s.user_id.Id == CurrUser.Id).Select(s => s.Email).FirstOrDefault();
                 string emailSubject = "Approval for event";
                 string description = "Your application for the event has been approved by the admin";
-                string eventName = _context.events.Where(e =>e.EventId == id).Select(e => e.EventName).FirstOrDefault();
 
                 string data = response.Content.ReadAsStringAsync().Result;
                 var eventRow = JsonConvert.DeserializeObject<JoinedEventsModel>(data);
                 eventRow.Status = "Approved";
-                
-                //Console.WriteLine(eventRow.JoinedEventsId +" "+" " +eventRow.Status+"======================================================================================");
+                int EventId = eventRow.event_id;
+                string eventName = _context.events.Where(e =>e.EventId == EventId).Select(e => e.EventName).FirstOrDefault();
+
 
                 //update
                 var json = JsonConvert.SerializeObject(eventRow);
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
                 var PostResponse = await _client.PutAsync($"https://localhost:7241/api/JoinedEventsModels/{id}", content);
 
+
                 if (PostResponse.IsSuccessStatusCode)
                 {
-                    SendEmail("vighu1610@gmail.com", emailSubject, description, eventName);
+                    SendEmail("Approval","vighu1610@gmail.com", emailSubject, description, eventName);
 
                     return RedirectToAction("Index");
                 }
@@ -180,7 +181,20 @@ namespace College.Controllers
                 var DeleteResponse = await _client.DeleteAsync($"https://localhost:7241/api/JoinedEventsModels/{id}");
 
                 if (DeleteResponse.IsSuccessStatusCode)
-                { 
+                {
+                    //for email purpose
+                    string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                    var CurrUser = await _userManager.FindByIdAsync(userId);
+                    string emailId = _context.students.Where(s => s.user_id.Id == CurrUser.Id).Select(s => s.Email).FirstOrDefault();
+                    string emailSubject = "Dissaproval for event";
+                    string description = "Your application for the event has been disapproved by the admin, contact admin office for further details";
+                    eventRow.Status = "Approved";
+                    int EventId = eventRow.event_id;
+                    string eventName = _context.events.Where(e => e.EventId == EventId).Select(e => e.EventName).FirstOrDefault();
+                    
+                    SendEmail("Disapproval","vighu1610@gmail.com", emailSubject, description, eventName);
+
+
                     return RedirectToAction("Index");
                 }
                 return View("Error");
