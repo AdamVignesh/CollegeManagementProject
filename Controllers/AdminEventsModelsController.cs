@@ -11,6 +11,8 @@ using Newtonsoft.Json;
 using Microsoft.AspNetCore.Identity;
 using System.Text;
 using System.Security.Claims;
+using MimeKit;
+using System.ComponentModel;
 
 namespace College.Controllers
 {
@@ -19,12 +21,14 @@ namespace College.Controllers
         private readonly CollegeContext _context;
         private readonly UserManager<AspNetUsers> _userManager;
         private readonly HttpClient _client;
+        private readonly IConfiguration _configuration;
 
-        public AdminEventsModelsController(CollegeContext context, UserManager<AspNetUsers> user)
+        public AdminEventsModelsController(CollegeContext context, UserManager<AspNetUsers> user, IConfiguration configuration)
         {
             _context = context;
             _userManager = user;
             _client = new HttpClient();
+            _configuration = configuration;
         }
 
         // GET: AdminEventsModels
@@ -129,6 +133,38 @@ namespace College.Controllers
             return View();
         }
 
+        //method for sending email
+        public void SendEmail(string toEmail, string Description, string EventName)
+        {
+            try
+            {
+
+                string fromPassword = _configuration["fromEmailPass"];
+                Console.WriteLine("from password" + fromPassword);
+                var email = new MimeMessage();
+                email.From.Add(MailboxAddress.Parse("testname1234554321@gmail.com"));
+                email.To.Add(MailboxAddress.Parse(toEmail));
+                email.Subject = "New Event ALERT" ;
+                email.Body = new TextPart(MimeKit.Text.TextFormat.Html)
+                {
+                    Text = $"<div><h1>Event Name: {EventName}</h1><p>{Description}</p> <p>Check our college website for further details</p></div>",
+                };
+
+                using var smtp = new MailKit.Net.Smtp.SmtpClient();
+                smtp.Connect("smtp.gmail.com", 587, MailKit.Security.SecureSocketOptions.StartTls);
+
+                smtp.Authenticate("testname1234554321@gmail.com", fromPassword);
+
+                smtp.Send(email);
+                smtp.Disconnect(true);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("eeeeeeeeeexxecption ========================" + ex.Message);
+            }
+        }
+
+
         // POST: AdminEventsModels/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
@@ -144,6 +180,9 @@ namespace College.Controllers
 
             if (response.IsSuccessStatusCode)
             {
+                //calling send mail 
+                SendEmail("vighu1610@gmail.com", eventsModel.EventDescription, eventsModel.EventName);
+
                 return RedirectToAction("Index",eventsModel);
             }
             return View();
