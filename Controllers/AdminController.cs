@@ -42,7 +42,8 @@ namespace College.Controllers
         [Authorize(Roles = "Admin")]
         public ActionResult Details(int id)
         {
-            return View();
+            var student = _context.students.Where(s => s.RegNo == id).FirstOrDefault();
+            return View(student);
         }
 
         // GET: AdminController/Create
@@ -95,7 +96,8 @@ namespace College.Controllers
         [Authorize(Roles = "Admin")]
         public ActionResult Delete(int id)
         {
-            return View();
+            var student = _context.students.Where(s => s.RegNo == id).FirstOrDefault();
+            return View(student);
         }
 
         // POST: AdminController/Delete/5
@@ -104,6 +106,8 @@ namespace College.Controllers
         [Authorize(Roles = "Admin")]
         public async Task<ActionResult> Delete(int id, IFormCollection collection)
         {
+                Console.WriteLine("==========delete post==================");
+                Console.WriteLine("=========="+id+"==================");
             if (_context.students == null)
             {
                 return  Problem("Entity set 'CollegeContext.students'  is null.");
@@ -111,11 +115,13 @@ namespace College.Controllers
             var studentsModel = await _context.students.FindAsync(id);
             if (studentsModel != null)
             {
+                Console.WriteLine("==========" + id + "===inside if===============");
+
                 _context.students.Remove(studentsModel);
+                await _context.SaveChangesAsync();
                 return RedirectToAction("ViewStudents");
             }
 
-            await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
     }

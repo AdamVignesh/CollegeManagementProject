@@ -119,9 +119,7 @@ namespace College.Controllers
             var CurrUser = await _userManager.FindByIdAsync(userId);
 
 
-           // Console.WriteLine(department);
             //AWS configs
-
             IConfiguration config = new ConfigurationBuilder()
         .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
         .Build();
@@ -136,12 +134,13 @@ namespace College.Controllers
             string filePath = $"C:\\Users\\HP\\source\\College\\College\\images\\{file.FileName}";
             string[] temp = file.FileName.Split('.');
             string fileExtension = temp[temp.Length-1];
-            if(fileExtension!="png" || fileExtension != "jpg"|| fileExtension != "jpeg")
+
+            Console.Write(fileExtension+"====================photo===============================");
+            if(fileExtension!="png" && fileExtension != "jpg" && fileExtension != "jpeg")
             {
-                ViewBag.Reason = "Kindly uplaod the image in proper format (png,jpeg,jpg) ";
+                ViewBag.Reason = "Kindly upload the image in proper format (png,jpeg,jpg) ";
                 return View("Error");
             }
-            Console.Write(fileExtension+"====================photo===============================");
 
             using (var client = new AmazonS3Client(accessKey, secretKey, RegionEndpoint.EUNorth1))
             {
