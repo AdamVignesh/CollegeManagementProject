@@ -111,7 +111,6 @@ namespace College.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(IFormFile file,int department, [Bind("RegNo,Name,SchoolName,Percentage12th,Percentage10th,City,isFeePaid,YearOfStudy,Attendance,CGPA,Email,ImageURL")] StudentsModel studentsModel)
         {
-
             string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             DepartmentsModel departmentValues = _context.departments.Find(department);
             //DepartmentsModel departmentValues = _context.students.Include(s=>s.department_id).Where(id => id.department_id.DeptId == department).FirstOrDefault();
@@ -135,6 +134,14 @@ namespace College.Controllers
             Console.WriteLine("path "+filePath);*/
             Console.WriteLine("nweAcc " + accessKey);
             string filePath = $"C:\\Users\\HP\\source\\College\\College\\images\\{file.FileName}";
+            string[] temp = file.FileName.Split('.');
+            string fileExtension = temp[temp.Length-1];
+            if(fileExtension!="png" || fileExtension != "jpg"|| fileExtension != "jpeg")
+            {
+                ViewBag.Reason = "Kindly uplaod the image in proper format (png,jpeg,jpg) ";
+                return View("Error");
+            }
+            Console.Write(fileExtension+"====================photo===============================");
 
             using (var client = new AmazonS3Client(accessKey, secretKey, RegionEndpoint.EUNorth1))
             {
