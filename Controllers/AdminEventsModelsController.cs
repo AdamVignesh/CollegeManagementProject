@@ -69,30 +69,38 @@ namespace College.Controllers
 
                     }
 
-                    var x = joinedEvents.Where(s => s.Status == "NotApproved").ToList();
+                    var NotApprovedList = joinedEvents.Where(s => s.Status == "NotApproved").ToList();
 
 
-                    foreach (var item in x)
+                    foreach (var item in NotApprovedList)
                     {
                         //   Console.WriteLine(item.JoinedEventsId + " " + " " + item.event_id + "======================================================================================");
 
                         MyEventsViewModel myEventViewModel = new MyEventsViewModel();
                         var joinedEventsId = _context.joinedEvents.Where(e => e.JoinedEventsId == item.JoinedEventsId).Select(s => s.JoinedEventsId).FirstOrDefault();
                         myEventViewModel.joined_events_id = joinedEventsId;
+                        
                         var eventId = _context.events.Where(e => e.EventId == item.event_id).Select(s => s.EventId).FirstOrDefault();
                         myEventViewModel.event_id = eventId;
+                        
                         var eventName = _context.events.Where(e => e.EventId == item.event_id).Select(s => s.EventName).FirstOrDefault();
                         myEventViewModel.event_name = eventName;
+                        
                         var eventType = _context.events.Where(e => e.EventId == item.event_id).Select(s => s.EventType).FirstOrDefault();
                         myEventViewModel.event_type = eventType;
+                        
                         var eventVenue = _context.events.Where(e => e.EventId == item.event_id).Select(s => s.venue).FirstOrDefault();
                         myEventViewModel.event_venue = eventVenue;
+                        
                         var eventDescription = _context.events.Where(e => e.EventId == item.event_id).Select(s => s.EventDescription).FirstOrDefault();
                         myEventViewModel.event_description = eventDescription;
+                        
                         var eventDate = _context.events.Where(e => e.EventId == item.event_id).Select(s => s.EventDate).FirstOrDefault();
                         myEventViewModel.event_date = eventDate;
+                        
                         var StudentRegNo = _context.students.Where(e => e.RegNo == item.reg_no).Select(s => s.RegNo).FirstOrDefault();
                         myEventViewModel.reg_no = StudentRegNo;
+                        
                         var StudentName = _context.students.Where(e => e.RegNo == item.reg_no).Select(s => s.Name).FirstOrDefault();
                         myEventViewModel.student_name = StudentName;
 
